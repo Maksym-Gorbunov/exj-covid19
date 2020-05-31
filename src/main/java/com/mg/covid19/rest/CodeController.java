@@ -1,32 +1,33 @@
 package com.mg.covid19.rest;
 
-import com.mg.covid19.model.StatisticModel;
-import com.mg.covid19.service.StatisticsService;
+import com.mg.covid19.model.model.CodeModel;
+import com.mg.covid19.model.model.StatisticModel;
+import com.mg.covid19.service.CodeService;
+import com.mg.covid19.service.StatisticService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/covid19/statistic")
-public class C19Controller {
+@RequestMapping("/covid19/code")
+public class CodeController {
 
-    private StatisticsService statisticsService;
-    public C19Controller(StatisticsService statisticsService) {
-        this.statisticsService = statisticsService;
+    private CodeService service;
+    public CodeController(CodeService service) {
+        this.service = service;
     }
 
 
     @GetMapping()
-    public ResponseEntity<Iterable<StatisticModel>> getAllStatistic() throws Exception {
-        Iterable<StatisticModel> result = statisticsService.getAllStatistic();
-        result.forEach(System.out::println);
+    public ResponseEntity<Iterable<CodeModel>> getAll() throws Exception {
+        Iterable<CodeModel> result = service.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @PostMapping
-    public ResponseEntity<StatisticModel> createStatistic (@Valid @RequestBody StatisticModel statisticModel ) throws Exception{
-        return ResponseEntity.status(HttpStatus.CREATED).body(statisticsService.createStatistic(statisticModel));
+    public ResponseEntity<CodeModel> create (@Valid @RequestBody CodeModel model ) throws Exception{
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(model));
     }
 
 

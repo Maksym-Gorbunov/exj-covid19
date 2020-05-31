@@ -1,4 +1,4 @@
-package com.mg.covid19.model;
+package com.mg.covid19.model.model;
 
 import lombok.*;
 
@@ -20,7 +20,7 @@ public class StatisticModel {
     int deaths;
     int critical;
     int active;
-    String last_change;
-    String last_update;
+    String lastChange;
+    String lastUpdate;
 
 }

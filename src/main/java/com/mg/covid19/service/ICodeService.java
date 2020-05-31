@@ -1,12 +1,14 @@
 package com.mg.covid19.service;
 
-import com.mg.covid19.model.model.StatisticModel;
 
-public interface IStatisticService {
+import com.mg.covid19.model.model.CodeModel;
 
-    Iterable<StatisticModel> getAll() throws Exception;
+public interface ICodeService {
 
-    StatisticModel create(StatisticModel model) throws Exception;
+    Iterable<CodeModel> getAll() throws Exception;
+
+    CodeModel create(CodeModel model) throws Exception;
+
 }
 
 

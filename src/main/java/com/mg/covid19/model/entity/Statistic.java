@@ -1,4 +1,4 @@
-package com.mg.covid19.model;
+package com.mg.covid19.model.entity;
 
 import lombok.*;
 
@@ -21,9 +21,7 @@ public class Statistic implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)     //toDo dont use(increment) table field id on error
     private long id;
-
     int confirmed;
-
     int recovered;
 
     int deaths;
@@ -32,8 +30,8 @@ public class Statistic implements Serializable {
 
     int active;
 
-    String last_change;
+    String lastChange;
 
-    String last_update;
+    String lastUpdate;
 
 }

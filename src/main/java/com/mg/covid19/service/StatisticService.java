@@ -3,47 +3,47 @@ package com.mg.covid19.service;
 import com.mg.covid19.config.exception.exc.ResourceCreationException;
 import com.mg.covid19.config.exception.exc.ResourceNotFoundException;
 import com.mg.covid19.model.Mapper;
-import com.mg.covid19.model.Statistic;
-import com.mg.covid19.model.StatisticModel;
+import com.mg.covid19.model.entity.Statistic;
+import com.mg.covid19.model.model.StatisticModel;
 import com.mg.covid19.repository.StatisticRepository;
 import org.springframework.stereotype.Service;
-import java.time.Instant;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class StatisticsService implements IStatisticService {
+public class StatisticService implements IStatisticService {
 
-    private StatisticRepository statisticRepository;
+    private StatisticRepository repository;
     private Mapper mapper = new Mapper();
 
-    public StatisticsService(StatisticRepository statisticRepository, Mapper myModelMapper) {
-        this.statisticRepository = statisticRepository;
-        this.mapper = myModelMapper;
+    public StatisticService(StatisticRepository repository, Mapper mapper) {
+        this.repository = repository;
+        this.mapper = mapper;
     }
 
 
     @Override
-    public Iterable<StatisticModel> getAllStatistic() throws Exception {
-        List<Statistic> statistic = statisticRepository.findAll();
-        if (statistic == null) {
+    public Iterable<StatisticModel> getAll() throws Exception {
+        List<Statistic> entities = repository.findAll();
+        if (entities == null) {
             throw new ResourceNotFoundException("resource 'statistic' not found");
         }
-        if(statistic.isEmpty()){
+        if(entities.isEmpty()){
             return new ArrayList<>();
         }
-        return mapper.entitiesToModels(statistic);
+        return mapper.entitiesToModels(entities);
     }
 
     @Override
-    public StatisticModel createStatistic(StatisticModel statisticModel) throws Exception {
-        Statistic statistic = mapper.modelToEntity(statisticModel);
+    public StatisticModel create(StatisticModel model) throws Exception {
+        Statistic entity = mapper.modelToEntity(model);
         //user.setCreated(Instant.now());
-        Statistic savedStatistic = statisticRepository.save(statistic);
-        if(savedStatistic == null){
+        Statistic savedEntity = repository.save(entity);
+        if(savedEntity == null){
             throw new ResourceCreationException("unable to save 'statistic'");
         }
-        return mapper.entityToModel(savedStatistic);
+        return mapper.entityToModel(savedEntity);
     }
 
 }
