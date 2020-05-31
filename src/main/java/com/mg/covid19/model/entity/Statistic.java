@@ -21,17 +21,16 @@ public class Statistic implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)     //toDo dont use(increment) table field id on error
     private long id;
+
     int confirmed;
     int recovered;
-
     int deaths;
-
     int critical;
-
     int active;
-
     String lastChange;
-
     String lastUpdate;
+
+    @OneToOne(mappedBy = "statistic")
+    private Province province;
 
 }

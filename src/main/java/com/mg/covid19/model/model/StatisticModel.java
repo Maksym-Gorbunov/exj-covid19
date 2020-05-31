@@ -15,12 +15,12 @@ public class StatisticModel {
 
     private static final long serialVersionUID = 1L;
 
-    int confirmed;
-    int recovered;
-    int deaths;
-    int critical;
-    int active;
-    String lastChange;
-    String lastUpdate;
+    private int confirmed;
+    private int recovered;
+    private int deaths;
+    private int critical;
+    private int active;
+    private String lastChange;
+    private String lastUpdate;
 
 }

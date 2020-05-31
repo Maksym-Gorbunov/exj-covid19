@@ -2,6 +2,7 @@ package com.mg.covid19.rest;
 
 import com.mg.covid19.model.model.CodeModel;
 import com.mg.covid19.model.model.ProvinceModel;
+import com.mg.covid19.model.response.ProvinceResponce;
 import com.mg.covid19.service.implementation.CodeService;
 import com.mg.covid19.service.implementation.ProvinceService;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,12 @@ public class ProvinceController {
     @GetMapping()
     public ResponseEntity<Iterable<ProvinceModel>> getAll() throws Exception {
         Iterable<ProvinceModel> result = service.getAll();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("/*")
+    public ResponseEntity<Iterable<ProvinceResponce>> getAll2() throws Exception {
+        Iterable<ProvinceResponce> result = service.getAllTree();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

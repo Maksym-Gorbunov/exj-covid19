@@ -1,5 +1,6 @@
 package com.mg.covid19.model.model;
 
+import com.mg.covid19.model.entity.Statistic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,5 +12,6 @@ import lombok.ToString;
 @AllArgsConstructor
 public class ProvinceModel {
 
-    String name;
+    private String name;
+
 }
