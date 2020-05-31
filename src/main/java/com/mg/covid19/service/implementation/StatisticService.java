@@ -1,4 +1,4 @@
-package com.mg.covid19.service;
+package com.mg.covid19.service.implementation;
 
 import com.mg.covid19.config.exception.exc.ResourceCreationException;
 import com.mg.covid19.config.exception.exc.ResourceNotFoundException;
@@ -6,6 +6,7 @@ import com.mg.covid19.model.Mapper;
 import com.mg.covid19.model.entity.Statistic;
 import com.mg.covid19.model.model.StatisticModel;
 import com.mg.covid19.repository.StatisticRepository;
+import com.mg.covid19.service.IStatisticService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

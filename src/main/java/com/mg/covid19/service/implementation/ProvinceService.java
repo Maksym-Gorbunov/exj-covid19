@@ -1,33 +1,37 @@
-package com.mg.covid19.service;
+package com.mg.covid19.service.implementation;
 
 import com.mg.covid19.config.exception.exc.ResourceCreationException;
 import com.mg.covid19.config.exception.exc.ResourceNotFoundException;
 import com.mg.covid19.model.Mapper;
 import com.mg.covid19.model.entity.Code;
+import com.mg.covid19.model.entity.Province;
 import com.mg.covid19.model.model.CodeModel;
+import com.mg.covid19.model.model.ProvinceModel;
 import com.mg.covid19.repository.CodeRepository;
+import com.mg.covid19.repository.ProvinceRepository;
+import com.mg.covid19.service.IProvinceService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CodeService implements ICodeService {
+public class ProvinceService implements IProvinceService {
 
-    private CodeRepository repository;
+    private ProvinceRepository repository;
     private Mapper mapper = new Mapper();
 
-    public CodeService(CodeRepository repository, Mapper mapper) {
+    public ProvinceService(ProvinceRepository repository, Mapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
 
 
     @Override
-    public Iterable<CodeModel> getAll() throws Exception {
-        List<Code> entities = repository.findAll();
+    public Iterable<ProvinceModel> getAll() throws Exception {
+        List<Province> entities = repository.findAll();
         if (entities == null) {
-            throw new ResourceNotFoundException("resource 'code' not found");
+            throw new ResourceNotFoundException("resource 'province' not found");
         }
         if(entities.isEmpty()){
             return new ArrayList<>();
@@ -36,14 +40,13 @@ public class CodeService implements ICodeService {
     }
 
     @Override
-    public CodeModel create(CodeModel model) throws Exception {
-        Code entity = mapper.modelToEntity(model);
+    public ProvinceModel create(ProvinceModel model) throws Exception {
+        Province entity = mapper.modelToEntity(model);
         //user.setCreated(Instant.now());
-        Code savedEntity = repository.save(entity);
+        Province savedEntity = repository.save(entity);
         if(savedEntity == null){
-            throw new ResourceCreationException("unable to save 'code'");
+            throw new ResourceCreationException("unable to save 'province'");
         }
         return mapper.entityToModel(savedEntity);
     }
-
 }

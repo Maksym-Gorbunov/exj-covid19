@@ -1,9 +1,7 @@
 package com.mg.covid19.rest;
 
 import com.mg.covid19.model.model.CodeModel;
-import com.mg.covid19.model.model.StatisticModel;
-import com.mg.covid19.service.CodeService;
-import com.mg.covid19.service.StatisticService;
+import com.mg.covid19.service.implementation.CodeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

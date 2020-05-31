@@ -1,8 +1,10 @@
 package com.mg.covid19.model;
 
 import com.mg.covid19.model.entity.Code;
+import com.mg.covid19.model.entity.Province;
 import com.mg.covid19.model.entity.Statistic;
 import com.mg.covid19.model.model.CodeModel;
+import com.mg.covid19.model.model.ProvinceModel;
 import com.mg.covid19.model.model.StatisticModel;
 import org.modelmapper.ModelMapper;
 
@@ -20,6 +22,9 @@ public class Mapper extends ModelMapper {
         }
         if(entity.getClass().equals(Code.class)){
             return this.map(entity, (Type) CodeModel.class);
+        }
+        if(entity.getClass().equals(Province.class)){
+            return this.map(entity, (Type) ProvinceModel.class);
         }
         return null;
     }
@@ -40,6 +45,13 @@ public class Mapper extends ModelMapper {
             }
             return (List<M>) models;
         }
+        if(entities.get(0).getClass().equals(Province.class)){
+            List<ProvinceModel> models = new ArrayList<>();
+            for(E entity : entities){
+                models.add(entityToModel(entity));
+            }
+            return (List<M>) models;
+        }
         return null;
     }
 
@@ -50,6 +62,9 @@ public class Mapper extends ModelMapper {
         }
         if(model.getClass().equals(CodeModel.class)){
             return this.map(model, (Type) Code.class);
+        }
+        if(model.getClass().equals(ProvinceModel.class)){
+            return this.map(model, (Type) Province.class);
         }
         return null;
     }
@@ -65,6 +80,13 @@ public class Mapper extends ModelMapper {
         }
         if(models.get(0).getClass().equals(CodeModel.class)){
             List<Code> entities = new ArrayList<>();
+            for(M model : models){
+                entities.add(modelToEntity(model));
+            }
+            return (List<E>) entities;
+        }
+        if(models.get(0).getClass().equals(ProvinceModel.class)){
+            List<Province> entities = new ArrayList<>();
             for(M model : models){
                 entities.add(modelToEntity(model));
             }
