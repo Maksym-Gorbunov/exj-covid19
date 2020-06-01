@@ -13,5 +13,6 @@ import lombok.ToString;
 public class ProvinceModel {
 
     private String name;
+    //private Statistic statistic;
 
 }

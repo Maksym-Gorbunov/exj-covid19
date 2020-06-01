@@ -27,7 +27,7 @@ public class ProvinceController {
     }
 
     @GetMapping("/*")
-    public ResponseEntity<Iterable<ProvinceResponce>> getAll2() throws Exception {
+    public ResponseEntity<Iterable<ProvinceResponce>> getAllTree() throws Exception {
         Iterable<ProvinceResponce> result = service.getAllTree();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }

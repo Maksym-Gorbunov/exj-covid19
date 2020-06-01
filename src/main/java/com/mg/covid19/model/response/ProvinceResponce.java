@@ -12,6 +12,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProvinceResponce {
-    ProvinceModel provinceModel;
-    StatisticModel statisticModel;
+    ProvinceModel province;
+    StatisticModel statistic;
 }
