@@ -33,18 +33,18 @@ public class CodeService implements ICodeService {
         if(entities.isEmpty()){
             return new ArrayList<>();
         }
-        return mapper.entitiesToModels(entities);
+        return mapper.toModels(entities);
     }
 
     @Override
     public CodeModel create(CodeModel model) throws Exception {
-        Code entity = mapper.modelToEntity(model);
+        Code entity = mapper.toEntity(model);
         //user.setCreated(Instant.now());
         Code savedEntity = repository.save(entity);
         if(savedEntity == null){
             throw new ResourceCreationException("unable to save 'code'");
         }
-        return mapper.entityToModel(savedEntity);
+        return mapper.toModel(savedEntity);
     }
 
 }

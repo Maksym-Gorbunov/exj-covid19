@@ -17,50 +17,37 @@ import java.util.List;
 public class StatisticService implements IStatisticService {
 
     @Autowired
-    private StatisticRepository repository;
+    private StatisticRepository statisticRepository;
     @Autowired
-    private Mapper mapper = new Mapper();
+    private Mapper mapper;
 
-    /*public StatisticService(StatisticRepository repository, Mapper mapper) {
-        this.repository = repository;
-        this.mapper = mapper;
-    }*/
 
     @Override
     public StatisticModel get(long id) throws Exception {
-        System.out.println(111);
-        Statistic statistic = new Statistic();
-        System.out.println(222);
-        statistic = repository.getOne(id);
-        System.out.println("id "+statistic.getId());
-        System.out.println("dea "+statistic.getDeaths());
-        System.out.println(333);
-        StatisticModel res = new StatisticModel();
-        res = mapper.entityToModel(statistic);
-        System.out.println("model dea "+res.getDeaths());   //toDo mapper return null???
-        return res;
+        Statistic entity = statisticRepository.getOne(id);
+        return mapper.toModel(entity);
     }
 
     @Override
     public Iterable<StatisticModel> getAll() throws Exception {
-        List<Statistic> entities = repository.findAll();
+        List<Statistic> entities = statisticRepository.findAll();
         if (entities == null) {
             throw new ResourceNotFoundException("resource 'statistic' not found");
         }
         if (entities.isEmpty()) {
             return new ArrayList<>();
         }
-        return mapper.entitiesToModels(entities);
+        return mapper.toModels(entities);
     }
 
     @Override
     public StatisticModel create(StatisticModel model) throws Exception {
-        Statistic entity = mapper.modelToEntity(model);
-        Statistic savedEntity = repository.save(entity);
+        Statistic entity = mapper.toEntity(model);
+        Statistic savedEntity = statisticRepository.save(entity);
         if (savedEntity == null) {
             throw new ResourceCreationException("unable to save 'statistic'");
         }
-        return mapper.entityToModel(savedEntity);
+        return mapper.toModel(savedEntity);
     }
 
     @Override   //toDo Implement
@@ -70,10 +57,10 @@ public class StatisticService implements IStatisticService {
 
     @Override
     public String delete(Long id) throws Exception {
-        if (repository.getOne(id) == null) {
+        if (statisticRepository.getOne(id) == null) {
             throw new ResourceNotFoundException("unable to delete, statistic with id '" + id + "' not found");
         }
-        repository.deleteById(id);
+        statisticRepository.deleteById(id);
         return "Statistic with id '" + id + "' was successfully deleted";
     }
 

@@ -43,7 +43,7 @@ public class ProvinceService implements IProvinceService {
             //p.getStatistic().getId();
             //p.setStatistic(statistic);
         //}
-        return mapper.entitiesToModels(entities);
+        return mapper.toModels(entities);
     }
 
     @Override
@@ -59,8 +59,8 @@ public class ProvinceService implements IProvinceService {
         entities.forEach(e -> {
             ProvinceResponce provinceResponce = new ProvinceResponce();
             Statistic statistic = statisticRepository.getOne(e.getStatistic().getId());
-            provinceResponce.setStatistic(mapper.entityToModel(statistic));
-            provinceResponce.setProvince(mapper.entityToModel(e));
+            provinceResponce.setStatistic(mapper.toModel(statistic));
+            provinceResponce.setProvince(mapper.toModel(e));
             provinceResponces.add(provinceResponce);
         });
 
@@ -69,7 +69,7 @@ public class ProvinceService implements IProvinceService {
 
     @Override
     public ProvinceModel create(ProvinceModel model) throws Exception {
-        Province entity = mapper.modelToEntity(model);
+        Province entity = mapper.toEntity(model);
         Statistic s = new Statistic();
         Statistic statistic = statisticRepository.save(s);
         entity.setStatistic(statistic);
@@ -77,7 +77,7 @@ public class ProvinceService implements IProvinceService {
         if(savedEntity == null){
             throw new ResourceCreationException("unable to save 'province'");
         }
-        return mapper.entityToModel(savedEntity);
+        return mapper.toModel(savedEntity);
     }
 
 

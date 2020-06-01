@@ -16,39 +16,39 @@ import java.util.List;
 public class Mapper extends ModelMapper {
 
 
-    public <E, M> M entityToModel(E entity){
-        if(entity.getClass().equals(Statistic.class)){
+    public <E, M> M toModel(E entity){
+        if(entity.getClass().getSimpleName().startsWith("Statistic")){
             return this.map(entity, (Type) StatisticModel.class);
         }
-        if(entity.getClass().equals(Code.class)){
+        if(entity.getClass().getSimpleName().startsWith("Code")){
             return this.map(entity, (Type) CodeModel.class);
         }
-        if(entity.getClass().equals(Province.class)){
+        if(entity.getClass().getSimpleName().startsWith("Province")){
             return this.map(entity, (Type) ProvinceModel.class);
         }
         return null;
     }
 
 
-    public <E, M> List<M> entitiesToModels(List<E> entities){
-        if(entities.get(0).getClass().equals(Statistic.class)){
+    public <E, M> List<M> toModels(List<E> entities){
+        if(entities.get(0).getClass().getSimpleName().startsWith("Statistic")){
             List<StatisticModel> models = new ArrayList<>();
             for(E entity : entities){
-                models.add(entityToModel(entity));
+                models.add(toModel(entity));
             }
             return (List<M>) models;
         }
-        if(entities.get(0).getClass().equals(Code.class)){
+        if(entities.get(0).getClass().getSimpleName().startsWith("Code")){
             List<CodeModel> models = new ArrayList<>();
             for(E entity : entities){
-                models.add(entityToModel(entity));
+                models.add(toModel(entity));
             }
             return (List<M>) models;
         }
-        if(entities.get(0).getClass().equals(Province.class)){
+        if(entities.get(0).getClass().getSimpleName().startsWith("Province")){
             List<ProvinceModel> models = new ArrayList<>();
             for(E entity : entities){
-                models.add(entityToModel(entity));
+                models.add(toModel(entity));
             }
             return (List<M>) models;
         }
@@ -56,39 +56,39 @@ public class Mapper extends ModelMapper {
     }
 
 
-    public <M, E> E modelToEntity(M model){
-        if(model.getClass().equals(StatisticModel.class)){
+    public <M, E> E toEntity(M model){
+        if(model.getClass().getSimpleName().startsWith("StatisticModel")){
             return this.map(model, (Type) Statistic.class);
         }
-        if(model.getClass().equals(CodeModel.class)){
+        if(model.getClass().getSimpleName().startsWith("CodeModel")){
             return this.map(model, (Type) Code.class);
         }
-        if(model.getClass().equals(ProvinceModel.class)){
+        if(model.getClass().getSimpleName().startsWith("ProvinceModel")){
             return this.map(model, (Type) Province.class);
         }
         return null;
     }
 
 
-    public <M, E> List<E> modelsToEntities(List<M> models){
-        if(models.get(0).getClass().equals(StatisticModel.class)){
+    public <M, E> List<E> toEntities(List<M> models){
+        if(models.get(0).getClass().getSimpleName().startsWith("StatisticModel")){
             List<Statistic> entities = new ArrayList<>();
             for(M model : models){
-                entities.add(modelToEntity(model));
+                entities.add(toEntity(model));
             }
             return (List<E>) entities;
         }
-        if(models.get(0).getClass().equals(CodeModel.class)){
+        if(models.get(0).getClass().getSimpleName().startsWith("CodeModel")){
             List<Code> entities = new ArrayList<>();
             for(M model : models){
-                entities.add(modelToEntity(model));
+                entities.add(toEntity(model));
             }
             return (List<E>) entities;
         }
-        if(models.get(0).getClass().equals(ProvinceModel.class)){
+        if(models.get(0).getClass().getSimpleName().startsWith("ProvinceModel")){
             List<Province> entities = new ArrayList<>();
             for(M model : models){
-                entities.add(modelToEntity(model));
+                entities.add(toEntity(model));
             }
             return (List<E>) entities;
         }

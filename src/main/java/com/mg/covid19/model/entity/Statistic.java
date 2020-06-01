@@ -1,12 +1,16 @@
 package com.mg.covid19.model.entity;
 
+import com.mg.covid19.model.model.StatisticModel;
 import lombok.*;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.List;
 
 @ToString
 @Entity
@@ -32,5 +36,6 @@ public class Statistic implements Serializable {
 
     @OneToOne(mappedBy = "statistic")
     private Province province;
+
 
 }
