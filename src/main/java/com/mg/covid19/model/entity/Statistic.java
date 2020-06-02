@@ -34,8 +34,8 @@ public class Statistic implements Serializable {
     String lastChange;
     String lastUpdate;
 
-    //@OneToOne(mappedBy = "statistic")
-    //private Province province;
+    @OneToOne(mappedBy = "statistic")
+    private Province province;
 
 }
 

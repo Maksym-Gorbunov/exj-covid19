@@ -24,9 +24,9 @@ public class Province implements Serializable {
 
     String name;
 
-    //@OneToOne(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "statistic_id", referencedColumnName = "id")
-    //private Statistic statistic;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "statistic_id", referencedColumnName = "id")
+    private Statistic statistic;
 
 }
 
