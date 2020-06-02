@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/covid19/country")
+@RequestMapping("/country")
 public class CountryController {
     @Autowired
     private CountryService countryService;

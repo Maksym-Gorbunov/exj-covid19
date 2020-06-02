@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/covid19/location")
+@RequestMapping("/location")
 public class LocationController {
     @Autowired
     private LocationService service;
