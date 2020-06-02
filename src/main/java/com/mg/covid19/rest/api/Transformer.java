@@ -1,11 +1,22 @@
-package com.mg.covid19.rest.helper;
+package com.mg.covid19.rest.api;
+
+import com.mg.covid19.model.Mapper;
+import com.mg.covid19.model.entity.Code;
+import com.mg.covid19.model.entity.Country;
+import com.mg.covid19.model.entity.Location;
+import com.mg.covid19.model.object.CountryRequestObj;
+import com.mg.covid19.model.object.CountryResponseObj;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ResponseTransformer {
+public class Transformer {
+
+    @Autowired
+    Mapper mapper;
 
 
     /*
@@ -39,16 +50,56 @@ public class ResponseTransformer {
         return null;
     }
 
+    */
 
+    //toDo to countryRespObj -> save to sql, create api service
     public List<Country> transform002(List<Map> data) {
         List<Country> countries = new ArrayList<>();
-        Country country = new Country();
         for (Map map : data) {
+            Country country = new Country();
             country.setName((String) map.get("name"));
-            Location location = new Location(String.valueOf(map.get("latitude")), String.valueOf(map.get("longitude")));
+            Location location = new Location();
+            if(map.get("latitude")!=null){
+                location.setLatitude((double) map.get("latitude"));
+            }
+            if(map.get("longitude")!=null){
+
+                location.setLongitude((double) map.get("longitude"));
+            }
             country.setLocation(location);
-            Code code = new Code(String.valueOf(map.get("alpha2code")), String.valueOf(map.get("alpha3code")));
+            Code code = new Code();
+            code.setAlpha2code(String.valueOf(map.get("alpha2code")));
+            code.setAlpha3code(String.valueOf(map.get("alpha3code")));
             country.setCode(code);
+            System.out.println();
+            countries.add(country);
+        }
+        System.out.println(1111);
+        if (!countries.isEmpty()) {
+            return countries;
+        }
+        System.out.println(2222);
+        return null;
+    }
+
+    public List<CountryRequestObj> transform0022(List<Map> data) {
+        List<CountryRequestObj> countries = new ArrayList<>();
+        for (Map map : data) {
+            CountryRequestObj country = new CountryRequestObj();
+            country.setName((String) map.get("name"));
+            Location location = new Location();
+            if(map.get("latitude")!=null){
+                location.setLatitude((double) map.get("latitude"));
+            }
+            if(map.get("longitude")!=null){
+
+                location.setLongitude((double) map.get("longitude"));
+            }
+            country.setLocation(mapper.toModel(location));
+            Code code = new Code();
+            code.setAlpha2code(String.valueOf(map.get("alpha2code")));
+            code.setAlpha3code(String.valueOf(map.get("alpha3code")));
+            country.setCode(mapper.toModel(code));
             countries.add(country);
         }
         if (!countries.isEmpty()) {
@@ -57,6 +108,7 @@ public class ResponseTransformer {
         return null;
     }
 
+    /*
 
     public Map transform003(Map data) {
         Map result = new HashMap();
