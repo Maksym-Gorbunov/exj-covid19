@@ -6,7 +6,8 @@ import com.mg.covid19.model.Mapper;
 import com.mg.covid19.model.entity.Province;
 import com.mg.covid19.model.entity.Statistic;
 import com.mg.covid19.model.model.ProvinceModel;
-import com.mg.covid19.model.response.ProvinceResponce;
+import com.mg.covid19.model.model.StatisticModel;
+import com.mg.covid19.model.object.ProvinceTree;
 import com.mg.covid19.repository.ProvinceRepository;
 import com.mg.covid19.service.IProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class ProvinceService implements IProvinceService {
     }
 
     @Override
-    public List<ProvinceResponce> getAllTree() throws Exception {
+    public List<ProvinceTree> getAllTree() throws Exception {
         List<Province> provinces = repository.findAll();
         if (provinces == null) {
             throw new ResourceNotFoundException("resource 'province' not found");
@@ -46,15 +47,15 @@ public class ProvinceService implements IProvinceService {
         if (provinces.isEmpty()) {
             return new ArrayList<>();
         }
-        List<ProvinceResponce> result = new ArrayList<>();
-        for (Province province :provinces){
-            ProvinceResponce provinceResponce = new ProvinceResponce();
-            provinceResponce.setProvince(mapper.toModel(province));
+        List<ProvinceTree> result = new ArrayList<>();
+        for (Province province : provinces) {
+            ProvinceTree provinceTree = new ProvinceTree();
+            provinceTree.setProvince(mapper.toModel(province));
             Statistic statistic = province.getStatistic();
-            if(statistic!=null){
-                provinceResponce.setStatistic(statisticService.get(statistic.getId()));
+            if (statistic != null) {
+                provinceTree.setStatistic(statisticService.get(statistic.getId()));
             }
-            result.add(provinceResponce);
+            result.add(provinceTree);
         }
         return result;
     }
@@ -75,6 +76,24 @@ public class ProvinceService implements IProvinceService {
         return mapper.toModel(savedEntity);
     }
 
+    @Override
+    public ProvinceTree createTree(ProvinceTree provinceTree) throws Exception {
+        Province province = mapper.toEntity(provinceTree.getProvince());
+        StatisticModel savedStatistic = statisticService.create(provinceTree.getStatistic());
+        province.setStatistic(mapper.toEntity(savedStatistic));
+        Province savedProvince = repository.save(province);
+        if (savedProvince == null) {
+            throw new ResourceCreationException("unable to save 'province'");
+        }
+        if (savedStatistic == null) {
+            throw new ResourceCreationException("unable to save 'statistic'");
+        }
+        ProvinceTree result = new ProvinceTree();
+        result.setProvince(mapper.toModel(savedProvince));
+        result.setStatistic(mapper.toModel(savedStatistic));
+        return result;
+    }
+
     @Override   //toDo Implement
     public ProvinceModel update(ProvinceModel model) throws Exception {
         return null;
@@ -88,4 +107,7 @@ public class ProvinceService implements IProvinceService {
     }
 
 }
+
+
+
 

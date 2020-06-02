@@ -1,7 +1,7 @@
 package com.mg.covid19.rest;
 
 import com.mg.covid19.model.model.ProvinceModel;
-import com.mg.covid19.model.response.ProvinceResponce;
+import com.mg.covid19.model.object.ProvinceTree;
 import com.mg.covid19.service.implementation.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,14 +29,19 @@ public class ProvinceController {
     }
 
     @GetMapping("/*")
-    public ResponseEntity<List<ProvinceResponce>> getAllTree() throws Exception {
-        List<ProvinceResponce> result = provinceService.getAllTree();
+    public ResponseEntity<List<ProvinceTree>> getAllTree() throws Exception {
+        List<ProvinceTree> result = provinceService.getAllTree();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @PostMapping
     public ResponseEntity<ProvinceModel> create (@Valid @RequestBody ProvinceModel model ) throws Exception{
         return ResponseEntity.status(HttpStatus.CREATED).body(provinceService.create(model));
+    }
+
+    @PostMapping("/*")
+    public ResponseEntity<ProvinceTree> createTree (@Valid @RequestBody ProvinceTree provinceTree) throws Exception{
+        return ResponseEntity.status(HttpStatus.CREATED).body(provinceService.createTree(provinceTree));
     }
 
     @PutMapping

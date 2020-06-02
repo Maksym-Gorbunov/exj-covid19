@@ -1,4 +1,4 @@
-package com.mg.covid19.model.response;
+package com.mg.covid19.model.object;
 
 import com.mg.covid19.model.model.ProvinceModel;
 import com.mg.covid19.model.model.StatisticModel;
@@ -11,7 +11,7 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProvinceResponce {
+public class ProvinceTree {
     ProvinceModel province;
     StatisticModel statistic;
 }

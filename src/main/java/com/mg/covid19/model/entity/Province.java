@@ -33,6 +33,26 @@ public class Province implements Serializable {
 
 /*
 {
-    "name": "Italy"
+    "name": "California"
+}
+*/
+
+
+/*
+{
+    "province":
+        {
+            "name": "California"
+        },
+    "statistic":
+        {
+            "active": 333,
+            "confirmed":333,
+            "recovered":1050802,
+            "critical":50962,
+            "deaths":233873,
+            "lastChange":"2020-05-01T01:57:04+02:00",
+            "lastUpdate":"2020-05-01T02:00:04+02:00"
+        }
 }
 */
