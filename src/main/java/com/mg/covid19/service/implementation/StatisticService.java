@@ -23,34 +23,34 @@ public class StatisticService implements IStatisticService {
 
     @Override
     public Iterable<StatisticModel> getAll() throws Exception {
-        List<Statistic> entities = repository.findAll();
-        if (entities == null) {
+        List<Statistic> statistics = repository.findAll();
+        if (statistics == null) {
             throw new ResourceNotFoundException("resource 'statistic' not found");
         }
-        if (entities.isEmpty()) {
+        if (statistics.isEmpty()) {
             return new ArrayList<>();
         }
-        return mapper.toModels(entities);
+        return mapper.toModels(statistics);
     }
 
     @Override
     public StatisticModel get(long id) throws Exception {
-        Statistic entity = repository.getOne(id);
-        return mapper.toModel(entity);
+        Statistic statistic = repository.getOne(id);
+        return mapper.toModel(statistic);
     }
 
     @Override
-    public StatisticModel create(StatisticModel model) throws Exception {
-        Statistic entity = mapper.toEntity(model);
-        Statistic savedEntity = repository.save(entity);
-        if (savedEntity == null) {
+    public StatisticModel create(StatisticModel statisticModel) throws Exception {
+        Statistic statistic = mapper.toEntity(statisticModel);
+        Statistic savedStatistic = repository.save(statistic);
+        if (savedStatistic == null) {
             throw new ResourceCreationException("unable to save 'statistic'");
         }
-        return mapper.toModel(savedEntity);
+        return mapper.toModel(savedStatistic);
     }
 
     @Override   //toDo Implement
-    public StatisticModel update(StatisticModel model) throws Exception {
+    public StatisticModel update(StatisticModel statisticModel) throws Exception {
         return null;
     }
 

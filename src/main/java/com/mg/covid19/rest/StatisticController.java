@@ -27,13 +27,13 @@ public class StatisticController {
     }
 
     @PostMapping
-    public ResponseEntity<StatisticModel> create (@Valid @RequestBody StatisticModel model ) throws Exception{
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(model));
+    public ResponseEntity<StatisticModel> create (@Valid @RequestBody StatisticModel statisticModel ) throws Exception{
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(statisticModel));
     }
 
     @PutMapping
-    public ResponseEntity<StatisticModel> update (@Valid @RequestBody StatisticModel model ) throws Exception{
-        return ResponseEntity.status(HttpStatus.OK).body(service.update(model));
+    public ResponseEntity<StatisticModel> update (@Valid @RequestBody StatisticModel statisticModel ) throws Exception{
+        return ResponseEntity.status(HttpStatus.OK).body(service.update(statisticModel));
     }
 
     @DeleteMapping("/{id}")

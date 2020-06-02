@@ -14,11 +14,11 @@ public interface IProvinceService {
 
     ProvinceModel get(long id) throws Exception;
 
-    ProvinceModel create(ProvinceModel model) throws Exception;
+    ProvinceModel create(ProvinceModel provinceModel) throws Exception;
 
     ProvinceResponseObj createTree(ProvinceRequestObj provinceRequestObj) throws Exception;
 
-    ProvinceModel update(ProvinceModel model) throws Exception;
+    ProvinceModel update(ProvinceModel provinceModel) throws Exception;
 
     String delete (Long id) throws Exception;
 

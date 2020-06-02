@@ -8,9 +8,9 @@ public interface IStatisticService {
 
     StatisticModel get(long id) throws Exception;
 
-    StatisticModel create(StatisticModel model) throws Exception;
+    StatisticModel create(StatisticModel statisticModel) throws Exception;
 
-    StatisticModel update(StatisticModel model) throws Exception;
+    StatisticModel update(StatisticModel statisticModel) throws Exception;
 
     String delete (Long id) throws Exception;
 

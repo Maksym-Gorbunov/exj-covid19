@@ -8,9 +8,9 @@ public interface ICodeService {
 
     CodeModel get(long id) throws Exception;
 
-    CodeModel create(CodeModel model) throws Exception;
+    CodeModel create(CodeModel codeModel) throws Exception;
 
-    CodeModel update(CodeModel model) throws Exception;
+    CodeModel update(CodeModel codeModel) throws Exception;
 
     String delete (Long id) throws Exception;
     

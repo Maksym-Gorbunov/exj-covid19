@@ -14,11 +14,11 @@ public interface ICountryService {
 
     CountryModel get(long id) throws Exception;
 
-    CountryModel create(CountryModel model) throws Exception;
+    CountryModel create(CountryModel countryModel) throws Exception;
 
     CountryResponseObj createTree(CountryRequestObj countryRequestObj) throws Exception;
 
-    CountryModel update(CountryModel model) throws Exception;
+    CountryModel update(CountryModel countryModel) throws Exception;
 
     String delete (Long id) throws Exception;
     

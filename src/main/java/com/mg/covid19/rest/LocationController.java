@@ -27,13 +27,13 @@ public class LocationController {
     }
 
     @PostMapping
-    public ResponseEntity<LocationModel> create (@Valid @RequestBody LocationModel model ) throws Exception{
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(model));
+    public ResponseEntity<LocationModel> create (@Valid @RequestBody LocationModel locationModel ) throws Exception{
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(locationModel));
     }
 
     @PutMapping
-    public ResponseEntity<LocationModel> update (@Valid @RequestBody LocationModel model ) throws Exception{
-        return ResponseEntity.status(HttpStatus.OK).body(service.update(model));
+    public ResponseEntity<LocationModel> update (@Valid @RequestBody LocationModel locationModel ) throws Exception{
+        return ResponseEntity.status(HttpStatus.OK).body(service.update(locationModel));
     }
 
     @DeleteMapping("/{id}")

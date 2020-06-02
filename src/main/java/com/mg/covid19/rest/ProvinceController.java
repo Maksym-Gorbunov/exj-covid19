@@ -36,8 +36,8 @@ public class ProvinceController {
     }
 
     @PostMapping
-    public ResponseEntity<ProvinceModel> create (@Valid @RequestBody ProvinceModel model ) throws Exception{
-        return ResponseEntity.status(HttpStatus.CREATED).body(provinceService.create(model));
+    public ResponseEntity<ProvinceModel> create (@Valid @RequestBody ProvinceModel provinceModel ) throws Exception{
+        return ResponseEntity.status(HttpStatus.CREATED).body(provinceService.create(provinceModel));
     }
 
     @PostMapping("/*")
@@ -46,8 +46,8 @@ public class ProvinceController {
     }
 
     @PutMapping
-    public ResponseEntity<ProvinceModel> update (@Valid @RequestBody ProvinceModel model ) throws Exception{
-        return ResponseEntity.status(HttpStatus.OK).body(provinceService.update(model));
+    public ResponseEntity<ProvinceModel> update (@Valid @RequestBody ProvinceModel provinceModel ) throws Exception{
+        return ResponseEntity.status(HttpStatus.OK).body(provinceService.update(provinceModel));
     }
 
     @DeleteMapping("/{id}")

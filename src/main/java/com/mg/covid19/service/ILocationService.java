@@ -10,9 +10,9 @@ public interface ILocationService {
 
     LocationModel get(long id) throws Exception;
 
-    LocationModel create(LocationModel model) throws Exception;
+    LocationModel create(LocationModel locationModel) throws Exception;
 
-    LocationModel update(LocationModel model) throws Exception;
+    LocationModel update(LocationModel locationModel) throws Exception;
 
     String delete (Long id) throws Exception;
 

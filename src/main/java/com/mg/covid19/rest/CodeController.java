@@ -27,13 +27,13 @@ public class CodeController {
     }
 
     @PostMapping
-    public ResponseEntity<CodeModel> create (@Valid @RequestBody CodeModel model ) throws Exception{
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(model));
+    public ResponseEntity<CodeModel> create (@Valid @RequestBody CodeModel codeModel ) throws Exception{
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(codeModel));
     }
 
     @PutMapping
-    public ResponseEntity<CodeModel> update (@Valid @RequestBody CodeModel model ) throws Exception{
-        return ResponseEntity.status(HttpStatus.OK).body(service.update(model));
+    public ResponseEntity<CodeModel> update (@Valid @RequestBody CodeModel codeModel ) throws Exception{
+        return ResponseEntity.status(HttpStatus.OK).body(service.update(codeModel));
     }
 
     @DeleteMapping("/{id}")

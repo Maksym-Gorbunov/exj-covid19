@@ -22,25 +22,25 @@ public class CodeService implements ICodeService {
 
     @Override
     public Iterable<CodeModel> getAll() throws Exception {
-        List<Code> entities = repository.findAll();
-        if (entities == null) {
+        List<Code> codes = repository.findAll();
+        if (codes == null) {
             throw new ResourceNotFoundException("resource 'code' not found");
         }
-        if (entities.isEmpty()) {
+        if (codes.isEmpty()) {
             return new ArrayList<>();
         }
-        return mapper.toModels(entities);
+        return mapper.toModels(codes);
     }
 
     @Override
     public CodeModel get(long id) throws Exception {
-        Code entity = repository.getOne(id);
-        return mapper.toModel(entity);
+        Code code = repository.getOne(id);
+        return mapper.toModel(code);
     }
 
     @Override
-    public CodeModel create(CodeModel model) throws Exception {
-        Code entity = mapper.toEntity(model);
+    public CodeModel create(CodeModel codeModel) throws Exception {
+        Code entity = mapper.toEntity(codeModel);
         Code savedEntity = repository.save(entity);
         if (savedEntity == null) {
             throw new ResourceCreationException("unable to save 'code'");
@@ -49,7 +49,7 @@ public class CodeService implements ICodeService {
     }
 
     @Override   //toDo Implement
-    public CodeModel update(CodeModel model) throws Exception {
+    public CodeModel update(CodeModel codeModel) throws Exception {
         return null;
     }
 

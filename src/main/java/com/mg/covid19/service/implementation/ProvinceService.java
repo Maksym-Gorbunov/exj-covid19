@@ -68,8 +68,8 @@ public class ProvinceService implements IProvinceService {
     }
 
     @Override
-    public ProvinceModel create(ProvinceModel model) throws Exception {
-        Province province = mapper.toEntity(model);
+    public ProvinceModel create(ProvinceModel provinceModel) throws Exception {
+        Province province = mapper.toEntity(provinceModel);
         Province savedProvince = repository.save(province);
         if (savedProvince == null) {
             throw new ResourceCreationException("unable to save 'province'");

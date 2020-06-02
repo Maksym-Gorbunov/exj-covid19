@@ -22,34 +22,34 @@ public class LocationService implements ILocationService {
 
     @Override
     public Iterable<LocationModel> getAll() throws Exception {
-        List<Location> entities = repository.findAll();
-        if (entities == null) {
+        List<Location> locations = repository.findAll();
+        if (locations == null) {
             throw new ResourceNotFoundException("resource 'location' not found");
         }
-        if (entities.isEmpty()) {
+        if (locations.isEmpty()) {
             return new ArrayList<>();
         }
-        return mapper.toModels(entities);
+        return mapper.toModels(locations);
     }
 
     @Override
     public LocationModel get(long id) throws Exception {
-        Location entity = repository.getOne(id);
-        return mapper.toModel(entity);
+        Location location = repository.getOne(id);
+        return mapper.toModel(location);
     }
 
     @Override
-    public LocationModel create(LocationModel model) throws Exception {
-        Location entity = mapper.toEntity(model);
-        Location savedEntity = repository.save(entity);
-        if (savedEntity == null) {
+    public LocationModel create(LocationModel locationModel) throws Exception {
+        Location location = mapper.toEntity(locationModel);
+        Location savedLocation = repository.save(location);
+        if (savedLocation == null) {
             throw new ResourceCreationException("unable to save 'location'");
         }
-        return mapper.toModel(savedEntity);
+        return mapper.toModel(savedLocation);
     }
 
     @Override   //toDo Implement
-    public LocationModel update(LocationModel model) throws Exception {
+    public LocationModel update(LocationModel locationModel) throws Exception {
         return null;
     }
 

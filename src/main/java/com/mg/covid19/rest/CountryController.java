@@ -36,8 +36,8 @@ public class CountryController {
     }
 
     @PostMapping
-    public ResponseEntity<CountryModel> create (@Valid @RequestBody CountryModel model ) throws Exception{
-        return ResponseEntity.status(HttpStatus.CREATED).body(countryService.create(model));
+    public ResponseEntity<CountryModel> create (@Valid @RequestBody CountryModel countryModel ) throws Exception{
+        return ResponseEntity.status(HttpStatus.CREATED).body(countryService.create(countryModel));
     }
 
     @PostMapping("/*")
@@ -46,8 +46,8 @@ public class CountryController {
     }
 
     @PutMapping
-    public ResponseEntity<CountryModel> update (@Valid @RequestBody CountryModel model ) throws Exception{
-        return ResponseEntity.status(HttpStatus.OK).body(countryService.update(model));
+    public ResponseEntity<CountryModel> update (@Valid @RequestBody CountryModel countryModel ) throws Exception{
+        return ResponseEntity.status(HttpStatus.OK).body(countryService.update(countryModel));
     }
 
     @DeleteMapping("/{id}")
