@@ -35,11 +35,16 @@ public class Statistic implements Serializable {
     String lastUpdate;
 
     @OneToOne(mappedBy = "statistic")
+    private Country country;
+
+    @OneToOne(mappedBy = "statistic")
     private Province province;
 
 }
 
+
 /*
+---------------------------------------------------------
 {
     "active": 333,
     "confirmed":333,
@@ -49,4 +54,5 @@ public class Statistic implements Serializable {
     "lastChange":"2020-05-01T01:57:04+02:00",
     "lastUpdate":"2020-05-01T02:00:04+02:00"
 }
+---------------------------------------------------------
 */

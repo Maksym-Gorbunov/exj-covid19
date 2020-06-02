@@ -13,8 +13,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@Table(name = "province")
-public class Province implements Serializable {
+public class Country implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,14 +33,11 @@ public class Province implements Serializable {
 /*
 ---------------------------------------------------------
 {
-    "name": "California"
+    "name": "Italy"
 }
 ---------------------------------------------------------
 {
-    "province":
-        {
-            "name": "California"
-        },
+    "name": "Italy",
     "statistic":
         {
             "active": 333,

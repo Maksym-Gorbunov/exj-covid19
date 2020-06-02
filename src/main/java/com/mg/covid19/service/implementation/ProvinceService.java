@@ -50,7 +50,7 @@ public class ProvinceService implements IProvinceService {
         List<ProvinceTree> result = new ArrayList<>();
         for (Province province : provinces) {
             ProvinceTree provinceTree = new ProvinceTree();
-            provinceTree.setProvince(mapper.toModel(province));
+            provinceTree.setName(province.getName());
             Statistic statistic = province.getStatistic();
             if (statistic != null) {
                 provinceTree.setStatistic(statisticService.get(statistic.getId()));
@@ -78,7 +78,8 @@ public class ProvinceService implements IProvinceService {
 
     @Override
     public ProvinceTree createTree(ProvinceTree provinceTree) throws Exception {
-        Province province = mapper.toEntity(provinceTree.getProvince());
+        Province province = new Province();
+        province.setName(provinceTree.getName());
         StatisticModel savedStatistic = statisticService.create(provinceTree.getStatistic());
         province.setStatistic(mapper.toEntity(savedStatistic));
         Province savedProvince = repository.save(province);
@@ -89,7 +90,7 @@ public class ProvinceService implements IProvinceService {
             throw new ResourceCreationException("unable to save 'statistic'");
         }
         ProvinceTree result = new ProvinceTree();
-        result.setProvince(mapper.toModel(savedProvince));
+        result.setName(savedProvince.getName());
         result.setStatistic(mapper.toModel(savedStatistic));
         return result;
     }
