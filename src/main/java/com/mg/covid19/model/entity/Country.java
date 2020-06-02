@@ -27,6 +27,10 @@ public class Country implements Serializable {
     @JoinColumn(name = "statistic_id", referencedColumnName = "id")
     private Statistic statistic;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "code_id", referencedColumnName = "id")
+    private Code code;
+
 }
 
 
@@ -47,6 +51,12 @@ public class Country implements Serializable {
             "deaths":233873,
             "lastChange":"2020-05-01T01:57:04+02:00",
             "lastUpdate":"2020-05-01T02:00:04+02:00"
+        },
+    "code":
+        {
+            "code":"AF",
+            "alpha2code":"AF",
+            "alpha3code":"AFG"
         }
 }
 ---------------------------------------------------------

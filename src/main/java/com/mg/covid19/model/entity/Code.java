@@ -26,6 +26,9 @@ public class Code implements Serializable {
     String alpha2code;
     String alpha3code;
 
+    @OneToOne(mappedBy = "code")
+    private Country country;
+
 }
 
 

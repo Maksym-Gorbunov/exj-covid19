@@ -3,8 +3,10 @@ package com.mg.covid19.service.implementation;
 import com.mg.covid19.config.exception.exc.ResourceCreationException;
 import com.mg.covid19.config.exception.exc.ResourceNotFoundException;
 import com.mg.covid19.model.Mapper;
+import com.mg.covid19.model.entity.Code;
 import com.mg.covid19.model.entity.Country;
 import com.mg.covid19.model.entity.Statistic;
+import com.mg.covid19.model.model.CodeModel;
 import com.mg.covid19.model.model.CountryModel;
 import com.mg.covid19.model.model.StatisticModel;
 import com.mg.covid19.model.object.CountryTree;
@@ -24,6 +26,8 @@ public class CountryService implements ICountryService {
     private Mapper mapper;
     @Autowired
     private StatisticService statisticService;
+    @Autowired
+    private CodeService codeService;
 
 
     @Override
@@ -42,20 +46,24 @@ public class CountryService implements ICountryService {
 
     @Override
     public List<CountryTree> getAllTree() throws Exception {
-        List<Country> countrys = repository.findAll();
-        if (countrys == null) {
+        List<Country> countries = repository.findAll();
+        if (countries == null) {
             throw new ResourceNotFoundException("resource 'country' not found");
         }
-        if (countrys.isEmpty()) {
+        if (countries.isEmpty()) {
             return new ArrayList<>();
         }
         List<CountryTree> result = new ArrayList<>();
-        for (Country country : countrys) {
+        for (Country country : countries) {
             CountryTree countryTree = new CountryTree();
             countryTree.setName(country.getName());
             Statistic statistic = country.getStatistic();
             if (statistic != null) {
                 countryTree.setStatistic(statisticService.get(statistic.getId()));
+            }
+            Code code = country.getCode();
+            if (code != null) {
+                countryTree.setCode(codeService.get(code.getId()));
             }
             result.add(countryTree);
         }
@@ -82,22 +90,24 @@ public class CountryService implements ICountryService {
     public CountryTree createTree(CountryTree countryTree) throws Exception {
         Country country = new Country();
         country.setName(countryTree.getName());
-
         StatisticModel savedStatistic = statisticService.create(countryTree.getStatistic());
-        country.setStatistic(mapper.toEntity(savedStatistic));
-
-        Country savedCountry = repository.save(country);
-
-        if (savedCountry == null) {
-            throw new ResourceCreationException("unable to save 'country'");
-        }
         if (savedStatistic == null) {
             throw new ResourceCreationException("unable to save 'statistic'");
         }
-
+        country.setStatistic(mapper.toEntity(savedStatistic));
+        CodeModel savedCode = codeService.create(countryTree.getCode());
+        if (savedCode == null) {
+            throw new ResourceCreationException("unable to save 'code'");
+        }
+        country.setCode(mapper.toEntity(savedCode));
+        Country savedCountry = repository.save(country);
+        if (savedCountry == null) {
+            throw new ResourceCreationException("unable to save 'country'");
+        }
         CountryTree result = new CountryTree();
         result.setName(savedCountry.getName());
         result.setStatistic(mapper.toModel(savedStatistic));
+        result.setCode(mapper.toModel(savedCode));
         return result;
     }
 
