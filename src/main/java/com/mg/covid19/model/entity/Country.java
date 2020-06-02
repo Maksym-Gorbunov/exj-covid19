@@ -31,6 +31,10 @@ public class Country implements Serializable {
     @JoinColumn(name = "code_id", referencedColumnName = "id")
     private Code code;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location_id", referencedColumnName = "id")
+    private Location location;
+
 }
 
 

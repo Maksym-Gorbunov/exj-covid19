@@ -1,13 +1,7 @@
 package com.mg.covid19.model;
 
-import com.mg.covid19.model.entity.Code;
-import com.mg.covid19.model.entity.Country;
-import com.mg.covid19.model.entity.Province;
-import com.mg.covid19.model.entity.Statistic;
-import com.mg.covid19.model.model.CodeModel;
-import com.mg.covid19.model.model.CountryModel;
-import com.mg.covid19.model.model.ProvinceModel;
-import com.mg.covid19.model.model.StatisticModel;
+import com.mg.covid19.model.entity.*;
+import com.mg.covid19.model.model.*;
 import org.modelmapper.ModelMapper;
 
 import java.lang.reflect.Type;
@@ -30,6 +24,9 @@ public class Mapper extends ModelMapper {
         }
         if(entity.getClass().getSimpleName().startsWith("Province")){
             return this.map(entity, (Type) ProvinceModel.class);
+        }
+        if(entity.getClass().getSimpleName().startsWith("Location")){
+            return this.map(entity, (Type) LocationModel.class);
         }
         return null;
     }
@@ -64,6 +61,13 @@ public class Mapper extends ModelMapper {
             }
             return (List<M>) models;
         }
+        if(entities.get(0).getClass().getSimpleName().startsWith("Location")){
+            List<LocationModel> models = new ArrayList<>();
+            for(E entity : entities){
+                models.add(toModel(entity));
+            }
+            return (List<M>) models;
+        }
         return null;
     }
 
@@ -80,6 +84,9 @@ public class Mapper extends ModelMapper {
         }
         if(model.getClass().getSimpleName().startsWith("ProvinceModel")){
             return this.map(model, (Type) Province.class);
+        }
+        if(model.getClass().getSimpleName().startsWith("LocationModel")){
+            return this.map(model, (Type) Location.class);
         }
         return null;
     }
@@ -109,6 +116,13 @@ public class Mapper extends ModelMapper {
         }
         if(models.get(0).getClass().getSimpleName().startsWith("ProvinceModel")){
             List<Province> entities = new ArrayList<>();
+            for(M model : models){
+                entities.add(toEntity(model));
+            }
+            return (List<E>) entities;
+        }
+        if(models.get(0).getClass().getSimpleName().startsWith("LocationModel")){
+            List<Location> entities = new ArrayList<>();
             for(M model : models){
                 entities.add(toEntity(model));
             }
