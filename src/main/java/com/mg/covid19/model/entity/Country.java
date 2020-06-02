@@ -61,7 +61,12 @@ public class Country implements Serializable {
             "code":"AF",
             "alpha2code":"AF",
             "alpha3code":"AFG"
-        }
+        },
+    "location":
+    	{
+		    "latitude":41.87194,
+		    "longitude":12.56738
+		}
 }
 ---------------------------------------------------------
 */
