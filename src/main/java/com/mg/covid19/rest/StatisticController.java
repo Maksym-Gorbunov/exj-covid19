@@ -11,39 +11,34 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/covid19/statistic")
 public class StatisticController {
-
     @Autowired
-    private StatisticService statisticService;
-
-    //public StatisticController(StatisticService service) {
-      //  this.service = service;
-    //}
+    private StatisticService service;
 
 
     @GetMapping("/{id}")
     public ResponseEntity<StatisticModel> get (@PathVariable Long id) throws Exception {
-        return ResponseEntity.status(HttpStatus.OK).body(statisticService.get(id));
+        return ResponseEntity.status(HttpStatus.OK).body(service.get(id));
     }
 
     @GetMapping()
     public ResponseEntity<Iterable<StatisticModel>> getAll() throws Exception {
-        Iterable<StatisticModel> result = statisticService.getAll();
+        Iterable<StatisticModel> result = service.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @PostMapping
     public ResponseEntity<StatisticModel> create (@Valid @RequestBody StatisticModel model ) throws Exception{
-        return ResponseEntity.status(HttpStatus.CREATED).body(statisticService.create(model));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(model));
     }
 
     @PutMapping
     public ResponseEntity<StatisticModel> update (@Valid @RequestBody StatisticModel model ) throws Exception{
-        return ResponseEntity.status(HttpStatus.OK).body(statisticService.update(model));
+        return ResponseEntity.status(HttpStatus.OK).body(service.update(model));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) throws Exception {
-        return ResponseEntity.status(HttpStatus.OK).body(statisticService.delete(id));
+        return ResponseEntity.status(HttpStatus.OK).body(service.delete(id));
     }
 
 }

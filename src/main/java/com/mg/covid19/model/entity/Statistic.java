@@ -17,7 +17,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "statistic")
+//@Table(name = "statistic")
 public class Statistic implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,8 +34,19 @@ public class Statistic implements Serializable {
     String lastChange;
     String lastUpdate;
 
-    @OneToOne(mappedBy = "statistic")
-    private Province province;
-
+    //@OneToOne(mappedBy = "statistic")
+    //private Province province;
 
 }
+
+/*
+{
+    "active": 333,
+    "confirmed":333,
+    "recovered":1050802,
+    "critical":50962,
+    "deaths":233873,
+    "lastChange":"2020-05-01T01:57:04+02:00",
+    "lastUpdate":"2020-05-01T02:00:04+02:00"
+}
+*/

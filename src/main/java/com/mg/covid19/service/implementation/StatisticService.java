@@ -15,22 +15,15 @@ import java.util.List;
 
 @Service
 public class StatisticService implements IStatisticService {
-
     @Autowired
-    private StatisticRepository statisticRepository;
+    private StatisticRepository repository;
     @Autowired
     private Mapper mapper;
 
 
     @Override
-    public StatisticModel get(long id) throws Exception {
-        Statistic entity = statisticRepository.getOne(id);
-        return mapper.toModel(entity);
-    }
-
-    @Override
     public Iterable<StatisticModel> getAll() throws Exception {
-        List<Statistic> entities = statisticRepository.findAll();
+        List<Statistic> entities = repository.findAll();
         if (entities == null) {
             throw new ResourceNotFoundException("resource 'statistic' not found");
         }
@@ -41,9 +34,15 @@ public class StatisticService implements IStatisticService {
     }
 
     @Override
+    public StatisticModel get(long id) throws Exception {
+        Statistic entity = repository.getOne(id);
+        return mapper.toModel(entity);
+    }
+
+    @Override
     public StatisticModel create(StatisticModel model) throws Exception {
         Statistic entity = mapper.toEntity(model);
-        Statistic savedEntity = statisticRepository.save(entity);
+        Statistic savedEntity = repository.save(entity);
         if (savedEntity == null) {
             throw new ResourceCreationException("unable to save 'statistic'");
         }
@@ -57,10 +56,8 @@ public class StatisticService implements IStatisticService {
 
     @Override
     public String delete(Long id) throws Exception {
-        if (statisticRepository.getOne(id) == null) {
-            throw new ResourceNotFoundException("unable to delete, statistic with id '" + id + "' not found");
-        }
-        statisticRepository.deleteById(id);
+        repository.getOne(id);
+        repository.deleteById(id);
         return "Statistic with id '" + id + "' was successfully deleted";
     }
 

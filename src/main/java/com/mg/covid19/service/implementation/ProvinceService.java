@@ -4,11 +4,8 @@ import com.mg.covid19.config.exception.exc.ResourceCreationException;
 import com.mg.covid19.config.exception.exc.ResourceNotFoundException;
 import com.mg.covid19.model.Mapper;
 import com.mg.covid19.model.entity.Province;
-import com.mg.covid19.model.entity.Statistic;
 import com.mg.covid19.model.model.ProvinceModel;
-import com.mg.covid19.model.response.ProvinceResponce;
 import com.mg.covid19.repository.ProvinceRepository;
-import com.mg.covid19.repository.StatisticRepository;
 import com.mg.covid19.service.IProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,15 +15,10 @@ import java.util.List;
 
 @Service
 public class ProvinceService implements IProvinceService {
-
     @Autowired
     private ProvinceRepository repository;
     @Autowired
-    private StatisticRepository statisticRepository;
-    @Autowired
     private Mapper mapper;
-
-
 
 
     @Override
@@ -35,50 +27,39 @@ public class ProvinceService implements IProvinceService {
         if (entities == null) {
             throw new ResourceNotFoundException("resource 'province' not found");
         }
-        if(entities.isEmpty()){
+        if (entities.isEmpty()) {
             return new ArrayList<>();
         }
-        //for(Province p : entities){
-            //System.out.println(p.getStatistic().getId());
-            //p.getStatistic().getId();
-            //p.setStatistic(statistic);
-        //}
         return mapper.toModels(entities);
     }
 
     @Override
-    public Iterable<ProvinceResponce> getAllTree() throws Exception {
-        List<Province> entities = repository.findAll();
-        if (entities == null) {
-            throw new ResourceNotFoundException("resource 'province' not found");
-        }
-        if(entities.isEmpty()){
-            return new ArrayList<>();
-        }
-        List<ProvinceResponce> provinceResponces = new ArrayList<>();
-        entities.forEach(e -> {
-            ProvinceResponce provinceResponce = new ProvinceResponce();
-            Statistic statistic = statisticRepository.getOne(e.getStatistic().getId());
-            provinceResponce.setStatistic(mapper.toModel(statistic));
-            provinceResponce.setProvince(mapper.toModel(e));
-            provinceResponces.add(provinceResponce);
-        });
-
-        return provinceResponces;
+    public ProvinceModel get(long id) throws Exception {
+        Province entity = repository.getOne(id);
+        return mapper.toModel(entity);
     }
 
     @Override
     public ProvinceModel create(ProvinceModel model) throws Exception {
         Province entity = mapper.toEntity(model);
-        Statistic s = new Statistic();
-        Statistic statistic = statisticRepository.save(s);
-        entity.setStatistic(statistic);
         Province savedEntity = repository.save(entity);
-        if(savedEntity == null){
+        if (savedEntity == null) {
             throw new ResourceCreationException("unable to save 'province'");
         }
         return mapper.toModel(savedEntity);
     }
 
+    @Override   //toDo Implement
+    public ProvinceModel update(ProvinceModel model) throws Exception {
+        return null;
+    }
+
+    @Override
+    public String delete(Long id) throws Exception {
+        repository.getOne(id);
+        repository.deleteById(id);
+        return "Province with id '" + id + "' was successfully deleted";
+    }
 
 }
+

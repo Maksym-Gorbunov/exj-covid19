@@ -13,13 +13,11 @@ import java.time.Instant;
 @AllArgsConstructor
 public class StatisticModel {
 
-    private static final long serialVersionUID = 1L;
-
     private int confirmed;
     private int recovered;
+    private int active;
     private int deaths;
     private int critical;
-    private int active;
     private String lastChange;
     private String lastUpdate;
 

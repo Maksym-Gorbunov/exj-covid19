@@ -1,10 +1,8 @@
 package com.mg.covid19.rest;
 
-import com.mg.covid19.model.model.CodeModel;
 import com.mg.covid19.model.model.ProvinceModel;
-import com.mg.covid19.model.response.ProvinceResponce;
-import com.mg.covid19.service.implementation.CodeService;
 import com.mg.covid19.service.implementation.ProvinceService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,22 +11,18 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/covid19/province")
 public class ProvinceController {
-
+    @Autowired
     private ProvinceService service;
-    public ProvinceController(ProvinceService service) {
-        this.service = service;
-    }
 
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProvinceModel> get (@PathVariable Long id) throws Exception {
+        return ResponseEntity.status(HttpStatus.OK).body(service.get(id));
+    }
 
     @GetMapping()
     public ResponseEntity<Iterable<ProvinceModel>> getAll() throws Exception {
         Iterable<ProvinceModel> result = service.getAll();
-        return ResponseEntity.status(HttpStatus.OK).body(result);
-    }
-
-    @GetMapping("/*")
-    public ResponseEntity<Iterable<ProvinceResponce>> getAllTree() throws Exception {
-        Iterable<ProvinceResponce> result = service.getAllTree();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
@@ -37,28 +31,14 @@ public class ProvinceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(model));
     }
 
-
-
-    /*
-    @GetMapping("/{userId}")
-    public ResponseEntity<UserModel> getUserById (@PathVariable Long userId) throws Exception {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.getUserById(userId));
+    @PutMapping
+    public ResponseEntity<ProvinceModel> update (@Valid @RequestBody ProvinceModel model ) throws Exception{
+        return ResponseEntity.status(HttpStatus.OK).body(service.update(model));
     }
 
-
-    @PostMapping
-    public ResponseEntity<UserModel> createUser (@Valid @RequestBody UserModel userModel ) throws Exception{
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userModel));
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) throws Exception {
+        return ResponseEntity.status(HttpStatus.OK).body(service.delete(id));
     }
-
-
-    @DeleteMapping("/{userId}")
-    public ResponseEntity deleteUser(@PathVariable Long userId) throws Exception {
-        String msg = userService.deleteUserById(userId);
-        System.out.println("msg: "+msg);
-        return ResponseEntity.status(HttpStatus.OK).body(msg);
-    }
-    */
-
 
 }

@@ -4,9 +4,9 @@ import com.mg.covid19.model.model.StatisticModel;
 
 public interface IStatisticService {
 
-    StatisticModel get(long id) throws Exception;
-
     Iterable<StatisticModel> getAll() throws Exception;
+
+    StatisticModel get(long id) throws Exception;
 
     StatisticModel create(StatisticModel model) throws Exception;
 

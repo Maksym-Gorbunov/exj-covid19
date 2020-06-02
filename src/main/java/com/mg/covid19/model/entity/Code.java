@@ -13,7 +13,7 @@ import java.time.Instant;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "code")
+//@Table(name = "code")
 public class Code implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,3 +27,11 @@ public class Code implements Serializable {
     String alpha3code;
 
 }
+
+/*
+{
+    "code":"AF",
+    "alpha2code":"AF",
+    "alpha3code":"AFG"
+}
+*/

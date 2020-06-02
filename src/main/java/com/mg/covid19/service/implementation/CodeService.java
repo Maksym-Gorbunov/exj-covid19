@@ -7,21 +7,17 @@ import com.mg.covid19.model.entity.Code;
 import com.mg.covid19.model.model.CodeModel;
 import com.mg.covid19.repository.CodeRepository;
 import com.mg.covid19.service.ICodeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CodeService implements ICodeService {
-
+    @Autowired
     private CodeRepository repository;
-    private Mapper mapper = new Mapper();
-
-    public CodeService(CodeRepository repository, Mapper mapper) {
-        this.repository = repository;
-        this.mapper = mapper;
-    }
+    @Autowired
+    private Mapper mapper;
 
 
     @Override
@@ -30,21 +26,39 @@ public class CodeService implements ICodeService {
         if (entities == null) {
             throw new ResourceNotFoundException("resource 'code' not found");
         }
-        if(entities.isEmpty()){
+        if (entities.isEmpty()) {
             return new ArrayList<>();
         }
         return mapper.toModels(entities);
     }
 
     @Override
+    public CodeModel get(long id) throws Exception {
+        Code entity = repository.getOne(id);
+        return mapper.toModel(entity);
+    }
+
+    @Override
     public CodeModel create(CodeModel model) throws Exception {
         Code entity = mapper.toEntity(model);
-        //user.setCreated(Instant.now());
         Code savedEntity = repository.save(entity);
-        if(savedEntity == null){
+        if (savedEntity == null) {
             throw new ResourceCreationException("unable to save 'code'");
         }
         return mapper.toModel(savedEntity);
     }
 
+    @Override   //toDo Implement
+    public CodeModel update(CodeModel model) throws Exception {
+        return null;
+    }
+
+    @Override
+    public String delete(Long id) throws Exception {
+        repository.getOne(id);
+        repository.deleteById(id);
+        return "Code with id '" + id + "' was successfully deleted";
+    }
+
 }
+

@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "province")
+//@Table(name = "province")
 public class Province implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -24,8 +24,15 @@ public class Province implements Serializable {
 
     String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "statistic_id", referencedColumnName = "id")
-    private Statistic statistic;
+    //@OneToOne(cascade = CascadeType.ALL)
+    //@JoinColumn(name = "statistic_id", referencedColumnName = "id")
+    //private Statistic statistic;
 
 }
+
+
+/*
+{
+    "name": "Italy"
+}
+*/

@@ -1,5 +1,6 @@
 package com.mg.covid19.config.exception;
 
+import com.mg.covid19.config.exception.exc.EmptyResultDataAccessException;
 import com.mg.covid19.config.exception.exc.ResourceCreationException;
 import com.mg.covid19.config.exception.exc.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -16,6 +17,11 @@ import javax.validation.ConstraintViolationException;
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     //TODO: make a response error serializable class to return in responseBody
+
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    public ResponseEntity handleEmptyResultDataAccessException(EmptyResultDataAccessException e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + e.getMessage());
+    }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity handleResourceNotFound(ResourceNotFoundException e){
