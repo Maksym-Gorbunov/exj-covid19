@@ -101,26 +101,34 @@ public class CountryService implements ICountryService {
 
     @Override
     public CountryTree createTree(CountryTree countryTree) throws Exception {
+        CountryTree result = new CountryTree();
         Country country = new Country();
         country.setName(countryTree.getName());
 
-        StatisticModel savedStatistic = statisticService.create(countryTree.getStatistic());
-        if (savedStatistic == null) {
-            throw new ResourceCreationException("unable to save 'statistic'");
+        if(country.getStatistic()!=null){
+            StatisticModel savedStatistic = statisticService.create(countryTree.getStatistic());
+            if (savedStatistic == null) {
+                throw new ResourceCreationException("unable to save 'statistic'");
+            }
+            country.setStatistic(mapper.toEntity(savedStatistic));
+            result.setStatistic(savedStatistic);
         }
-        country.setStatistic(mapper.toEntity(savedStatistic));
+
+
 
         CodeModel savedCode = codeService.create(countryTree.getCode());
         if (savedCode == null) {
             throw new ResourceCreationException("unable to save 'code'");
         }
         country.setCode(mapper.toEntity(savedCode));
+        result.setCode(savedCode);
 
         LocationModel savedLocation = locationService.create(countryTree.getLocation());
         if (savedLocation == null) {
             throw new ResourceCreationException("unable to save 'location'");
         }
         country.setLocation(mapper.toEntity(savedLocation));
+        result.setLocation(savedLocation);
 
         Country savedCountry = repository.save(country);
         if (savedCountry == null) {
@@ -128,12 +136,6 @@ public class CountryService implements ICountryService {
         }
 
 
-
-        CountryTree result = new CountryTree();
-        result.setName(savedCountry.getName());
-        result.setStatistic(savedStatistic);
-        result.setCode(savedCode);
-        result.setLocation(savedLocation);
         return result;
     }
 
