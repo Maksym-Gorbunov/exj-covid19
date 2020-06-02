@@ -5,13 +5,16 @@ import com.mg.covid19.config.exception.exc.ResourceNotFoundException;
 import com.mg.covid19.model.Mapper;
 import com.mg.covid19.model.entity.Code;
 import com.mg.covid19.model.entity.Country;
+import com.mg.covid19.model.entity.Location;
 import com.mg.covid19.model.entity.Statistic;
 import com.mg.covid19.model.model.CodeModel;
 import com.mg.covid19.model.model.CountryModel;
+import com.mg.covid19.model.model.LocationModel;
 import com.mg.covid19.model.model.StatisticModel;
 import com.mg.covid19.model.object.CountryTree;
 import com.mg.covid19.repository.CountryRepository;
 import com.mg.covid19.service.ICountryService;
+import com.mg.covid19.service.ILocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +31,8 @@ public class CountryService implements ICountryService {
     private StatisticService statisticService;
     @Autowired
     private CodeService codeService;
+    @Autowired
+    private LocationService locationService;
 
 
     @Override
@@ -57,14 +62,22 @@ public class CountryService implements ICountryService {
         for (Country country : countries) {
             CountryTree countryTree = new CountryTree();
             countryTree.setName(country.getName());
+
             Statistic statistic = country.getStatistic();
             if (statistic != null) {
                 countryTree.setStatistic(statisticService.get(statistic.getId()));
             }
+
             Code code = country.getCode();
             if (code != null) {
                 countryTree.setCode(codeService.get(code.getId()));
             }
+
+            Location location = country.getLocation();
+            if(location != null){
+                countryTree.setLocation(locationService.get(location.getId()));
+            }
+
             result.add(countryTree);
         }
         return result;
@@ -90,24 +103,37 @@ public class CountryService implements ICountryService {
     public CountryTree createTree(CountryTree countryTree) throws Exception {
         Country country = new Country();
         country.setName(countryTree.getName());
+
         StatisticModel savedStatistic = statisticService.create(countryTree.getStatistic());
         if (savedStatistic == null) {
             throw new ResourceCreationException("unable to save 'statistic'");
         }
         country.setStatistic(mapper.toEntity(savedStatistic));
+
         CodeModel savedCode = codeService.create(countryTree.getCode());
         if (savedCode == null) {
             throw new ResourceCreationException("unable to save 'code'");
         }
         country.setCode(mapper.toEntity(savedCode));
+
+        LocationModel savedLocation = locationService.create(countryTree.getLocation());
+        if (savedLocation == null) {
+            throw new ResourceCreationException("unable to save 'location'");
+        }
+        country.setLocation(mapper.toEntity(savedLocation));
+
         Country savedCountry = repository.save(country);
         if (savedCountry == null) {
             throw new ResourceCreationException("unable to save 'country'");
         }
+
+
+
         CountryTree result = new CountryTree();
         result.setName(savedCountry.getName());
-        result.setStatistic(mapper.toModel(savedStatistic));
-        result.setCode(mapper.toModel(savedCode));
+        result.setStatistic(savedStatistic);
+        result.setCode(savedCode);
+        result.setLocation(savedLocation);
         return result;
     }
 
