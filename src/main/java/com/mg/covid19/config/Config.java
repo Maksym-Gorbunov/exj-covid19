@@ -1,7 +1,7 @@
 package com.mg.covid19.config;
 
 import com.mg.covid19.model.Mapper;
-import com.mg.covid19.rest.api.Transformer;
+import com.mg.covid19.rest.RestHelper;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,8 +27,8 @@ public class Config {
     }
 
     @Bean
-    public Transformer responseTransformer() {
-        return new Transformer();
+    public RestHelper responseTransformer() {
+        return new RestHelper();
     }
 
 }

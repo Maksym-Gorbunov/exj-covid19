@@ -1,4 +1,4 @@
-package com.mg.covid19.rest;
+package com.mg.covid19.rest.covid19;
 
 import com.mg.covid19.model.model.StatisticModel;
 import com.mg.covid19.service.implementation.StatisticService;

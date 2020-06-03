@@ -1,19 +1,16 @@
 package com.mg.covid19.rest.api;
 
-import com.mg.covid19.model.entity.Country;
 import com.mg.covid19.model.object.CountryObj;
+import com.mg.covid19.rest.RestHelper;
 import com.mg.covid19.service.implementation.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.env.Environment;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -24,77 +21,30 @@ public class ApiController {
     @Autowired
     RestTemplate restTemplate;
     @Autowired
-    private Environment env;
-    @Autowired
-    private Transformer transformer;
+    private RestHelper restHelper;
     @Autowired
     private CountryService countryService;
 
 
-    private HttpHeaders getHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("x-rapidapi-host", env.getProperty("covid19.x-rapidapi-host"));
-        headers.set("x-rapidapi-key", env.getProperty("covid19.x-rapidapi-key"));
-        return headers;
-    }
-
-
-    private HttpEntity<String> initEntity() {
-        HttpHeaders headers = getHeaders();
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-        return entity;
-    }
-
-
-    @GetMapping("/countries/*")   // http://localhost:7000/covid19/api/countries/*
-    public ResponseEntity<List<Map>> getListOfCountriesOriginal() {
-        String url = env.getProperty("covid19.url") + "/help/countries?format=json";
-        ResponseEntity<List<Map>> response = restTemplate.exchange(url, HttpMethod.GET, initEntity(), new ParameterizedTypeReference<List<Map>>() {
-        });
-        if (response != null && response.getStatusCode().value() == 200) {
-            List<Map> data = response.getBody();
-            if (!data.isEmpty()) {
-                return new ResponseEntity<>(data, HttpStatus.OK);
-            }
-            return new ResponseEntity<>((List<Map>) null, HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>((List<Map>) null, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
 
     @GetMapping("/countries")   // http://localhost:7000/covid19/api/countries
     public ResponseEntity<List<CountryObj>> getListOfCountries() throws Exception {
-        String url = env.getProperty("covid19.url") + "/help/countries?format=json";
-        ResponseEntity<List<Map>> response = restTemplate.exchange(url, HttpMethod.GET, initEntity(), new ParameterizedTypeReference<List<Map>>() {
+        String url = restHelper.getUrl() + "/help/countries?format=json";
+        ResponseEntity<List<Map>> response = restTemplate.exchange(url, HttpMethod.GET, restHelper.initEntity(), new ParameterizedTypeReference<List<Map>>() {
         });
         if (response != null && response.getStatusCode().value() == 200) {
             List<Map> data = response.getBody();
             if (!data.isEmpty()) {
-                List<CountryObj> countriesObj = transformer.transform0022(data);
-                List<CountryObj> result = countryService.createTrees(countriesObj);
-                return new ResponseEntity<>(result, HttpStatus.OK);
+                List<CountryObj> countriesObj = restHelper.transformData1(data);
+                List<CountryObj> savedCountiesObj = countryService.createTrees(countriesObj);
+                return new ResponseEntity<>(savedCountiesObj, HttpStatus.OK);
             }
             return new ResponseEntity<>((List<CountryObj>) null, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>((List<CountryObj>) null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @GetMapping("/countries2")   // http://localhost:7000/covid19/api/countries
-    public ResponseEntity<List<Country>> getListOfCountries2() {
-        String url = env.getProperty("covid19.url") + "/help/countries?format=json";
-        ResponseEntity<List<Map>> response = restTemplate.exchange(url, HttpMethod.GET, initEntity(), new ParameterizedTypeReference<List<Map>>() {
-        });
-        if (response != null && response.getStatusCode().value() == 200) {
-            List<Map> data = response.getBody();
-            if (!data.isEmpty()) {
-                List<Country> result = transformer.transform002(data);
-                return new ResponseEntity<>(result, HttpStatus.OK);
-            }
-            return new ResponseEntity<>((List<Country>) null, HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>((List<Country>) null, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+
 
     /*
 
