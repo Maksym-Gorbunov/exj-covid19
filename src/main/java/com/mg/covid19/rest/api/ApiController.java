@@ -45,6 +45,8 @@ public class ApiController {
     }
 
 
+    //toDO continua to implement all methods below
+    //toDo impl update methods, for refreshing entities which exist but not consist all fields
 
     /*
 
