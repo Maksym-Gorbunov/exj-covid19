@@ -7,8 +7,7 @@ import com.mg.covid19.model.entity.Province;
 import com.mg.covid19.model.entity.Statistic;
 import com.mg.covid19.model.model.ProvinceModel;
 import com.mg.covid19.model.model.StatisticModel;
-import com.mg.covid19.model.object.ProvinceRequestObj;
-import com.mg.covid19.model.object.ProvinceResponseObj;
+import com.mg.covid19.model.object.ProvinceObj;
 import com.mg.covid19.repository.ProvinceRepository;
 import com.mg.covid19.service.IProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +39,7 @@ public class ProvinceService implements IProvinceService {
     }
 
     @Override
-    public List<ProvinceResponseObj> getAllTree() throws Exception {
+    public List<ProvinceObj> getAllTree() throws Exception {
         List<Province> provinces = repository.findAll();
         if (provinces == null) {
             throw new ResourceNotFoundException("resource 'province' not found");
@@ -48,15 +47,15 @@ public class ProvinceService implements IProvinceService {
         if (provinces.isEmpty()) {
             return new ArrayList<>();
         }
-        List<ProvinceResponseObj> result = new ArrayList<>();
+        List<ProvinceObj> result = new ArrayList<>();
         for (Province province : provinces) {
-            ProvinceResponseObj provinceResponseObj = new ProvinceResponseObj();
-            provinceResponseObj.setName(province.getName());
+            ProvinceObj provinceObj = new ProvinceObj();
+            provinceObj.setName(province.getName());
             Statistic statistic = province.getStatistic();
             if (statistic != null) {
-                provinceResponseObj.setStatistic(statisticService.get(statistic.getId()));
+                provinceObj.setStatistic(statisticService.get(statistic.getId()));
             }
-            result.add(provinceResponseObj);
+            result.add(provinceObj);
         }
         return result;
     }
@@ -78,13 +77,13 @@ public class ProvinceService implements IProvinceService {
     }
 
     @Override
-    public ProvinceResponseObj createTree(ProvinceRequestObj provinceRequestObj) throws Exception {
-        ProvinceResponseObj result = new ProvinceResponseObj();
+    public ProvinceObj createTree(ProvinceObj provinceObj) throws Exception {
+        ProvinceObj result = new ProvinceObj();
 
         Province province = new Province();
-        province.setName(provinceRequestObj.getName());
+        province.setName(provinceObj.getName());
 
-        StatisticModel statisticModel = provinceRequestObj.getStatistic();
+        StatisticModel statisticModel = provinceObj.getStatistic();
         if(statisticModel!=null){
             StatisticModel savedStatisticModel = statisticService.create(statisticModel);
             if (savedStatisticModel == null) {

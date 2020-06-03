@@ -11,7 +11,7 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CountryRequestObj {
+public class CountryObj {
     String name;
     StatisticModel statistic;
     CodeModel code;

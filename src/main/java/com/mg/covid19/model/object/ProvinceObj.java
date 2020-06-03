@@ -10,7 +10,7 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProvinceResponseObj {
+public class ProvinceObj {
     String name;
     StatisticModel statistic;
 }

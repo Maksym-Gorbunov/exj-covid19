@@ -1,8 +1,7 @@
 package com.mg.covid19.service;
 
 import com.mg.covid19.model.model.CountryModel;
-import com.mg.covid19.model.object.CountryRequestObj;
-import com.mg.covid19.model.object.CountryResponseObj;
+import com.mg.covid19.model.object.CountryObj;
 
 import java.util.List;
 
@@ -10,13 +9,15 @@ public interface ICountryService {
 
     List<CountryModel> getAll() throws Exception;
 
-    List<CountryResponseObj> getAllTree() throws Exception;
+    List<CountryObj> getAllTree() throws Exception;
 
     CountryModel get(long id) throws Exception;
 
     CountryModel create(CountryModel countryModel) throws Exception;
 
-    CountryResponseObj createTree(CountryRequestObj countryRequestObj) throws Exception;
+    CountryObj createTree(CountryObj countryObj) throws Exception;
+    
+    List<CountryObj> createTrees(List<CountryObj> countriesObj) throws Exception;
 
     CountryModel update(CountryModel countryModel) throws Exception;
 

@@ -4,9 +4,7 @@ import com.mg.covid19.model.Mapper;
 import com.mg.covid19.model.entity.Code;
 import com.mg.covid19.model.entity.Country;
 import com.mg.covid19.model.entity.Location;
-import com.mg.covid19.model.object.CountryRequestObj;
-import com.mg.covid19.model.object.CountryResponseObj;
-import org.modelmapper.ModelMapper;
+import com.mg.covid19.model.object.CountryObj;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -82,10 +80,10 @@ public class Transformer {
         return null;
     }
 
-    public List<CountryRequestObj> transform0022(List<Map> data) {
-        List<CountryRequestObj> countries = new ArrayList<>();
+    public List<CountryObj> transform0022(List<Map> data) {
+        List<CountryObj> countries = new ArrayList<>();
         for (Map map : data) {
-            CountryRequestObj country = new CountryRequestObj();
+            CountryObj country = new CountryObj();
             country.setName((String) map.get("name"));
             Location location = new Location();
             if(map.get("latitude")!=null){

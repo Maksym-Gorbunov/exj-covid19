@@ -11,8 +11,7 @@ import com.mg.covid19.model.model.CodeModel;
 import com.mg.covid19.model.model.CountryModel;
 import com.mg.covid19.model.model.LocationModel;
 import com.mg.covid19.model.model.StatisticModel;
-import com.mg.covid19.model.object.CountryRequestObj;
-import com.mg.covid19.model.object.CountryResponseObj;
+import com.mg.covid19.model.object.CountryObj;
 import com.mg.covid19.repository.CountryRepository;
 import com.mg.covid19.service.ICountryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +47,7 @@ public class CountryService implements ICountryService {
     }
 
     @Override
-    public List<CountryResponseObj> getAllTree() throws Exception {
+    public List<CountryObj> getAllTree() throws Exception {
         List<Country> countries = repository.findAll();
         if (countries == null) {
             throw new ResourceNotFoundException("resource 'country' not found");
@@ -56,27 +55,27 @@ public class CountryService implements ICountryService {
         if (countries.isEmpty()) {
             return new ArrayList<>();
         }
-        List<CountryResponseObj> result = new ArrayList<>();
+        List<CountryObj> result = new ArrayList<>();
         for (Country country : countries) {
-            CountryResponseObj countryResponseObj = new CountryResponseObj();
-            countryResponseObj.setName(country.getName());
+            CountryObj countryObj = new CountryObj();
+            countryObj.setName(country.getName());
 
             Statistic statistic = country.getStatistic();
             if (statistic != null) {
-                countryResponseObj.setStatistic(statisticService.get(statistic.getId()));
+                countryObj.setStatistic(statisticService.get(statistic.getId()));
             }
 
             Code code = country.getCode();
             if (code != null) {
-                countryResponseObj.setCode(codeService.get(code.getId()));
+                countryObj.setCode(codeService.get(code.getId()));
             }
 
             Location location = country.getLocation();
             if (location != null) {
-                countryResponseObj.setLocation(locationService.get(location.getId()));
+                countryObj.setLocation(locationService.get(location.getId()));
             }
 
-            result.add(countryResponseObj);
+            result.add(countryObj);
         }
         return result;
     }
@@ -98,13 +97,13 @@ public class CountryService implements ICountryService {
     }
 
     @Override
-    public CountryResponseObj createTree(CountryRequestObj countryRequestObj) throws Exception {
-        CountryResponseObj result = new CountryResponseObj();
+    public CountryObj createTree(CountryObj countryObj) throws Exception {
+        CountryObj result = new CountryObj();
 
         Country country = new Country();
-        country.setName(countryRequestObj.getName());
+        country.setName(countryObj.getName());
 
-        StatisticModel statisticModel = countryRequestObj.getStatistic();
+        StatisticModel statisticModel = countryObj.getStatistic();
         if (statisticModel != null) {
             StatisticModel savedStatisticModel = statisticService.create(statisticModel);
             if (savedStatisticModel == null) {
@@ -114,7 +113,7 @@ public class CountryService implements ICountryService {
             result.setStatistic(savedStatisticModel);
         }
 
-        CodeModel codeModel = countryRequestObj.getCode();
+        CodeModel codeModel = countryObj.getCode();
         if (codeModel != null) {
             CodeModel savedCodeModel = codeService.create(codeModel);
             if (savedCodeModel == null) {
@@ -124,7 +123,7 @@ public class CountryService implements ICountryService {
             result.setCode(savedCodeModel);
         }
 
-        LocationModel locationModel = countryRequestObj.getLocation();
+        LocationModel locationModel = countryObj.getLocation();
         if (locationModel != null) {
             LocationModel savedLocationModel = locationService.create(locationModel);
             if (savedLocationModel == null) {
@@ -141,6 +140,16 @@ public class CountryService implements ICountryService {
 
         result.setName(savedCountry.getName());
 
+        return result;
+    }
+
+    @Override
+    public List<CountryObj> createTrees(List<CountryObj> countriesObj) throws Exception {
+        List<CountryObj> result = new ArrayList<>();
+        for(int i=0; i<countriesObj.size(); i++){
+            result.add(createTree(countriesObj.get(i)));
+            System.out.println((i+1) + "/" + countriesObj.size() + " inserted to database");
+        }
         return result;
     }
 

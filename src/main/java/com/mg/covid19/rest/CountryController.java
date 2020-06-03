@@ -1,8 +1,7 @@
 package com.mg.covid19.rest;
 
 import com.mg.covid19.model.model.CountryModel;
-import com.mg.covid19.model.object.CountryRequestObj;
-import com.mg.covid19.model.object.CountryResponseObj;
+import com.mg.covid19.model.object.CountryObj;
 import com.mg.covid19.service.implementation.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,8 +29,8 @@ public class CountryController {
     }
 
     @GetMapping("/*")
-    public ResponseEntity<List<CountryResponseObj>> getAllTree() throws Exception {
-        List<CountryResponseObj> result = countryService.getAllTree();
+    public ResponseEntity<List<CountryObj>> getAllTree() throws Exception {
+        List<CountryObj> result = countryService.getAllTree();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
@@ -41,7 +40,7 @@ public class CountryController {
     }
 
     @PostMapping("/*")
-    public ResponseEntity<CountryResponseObj> createTree (@Valid @RequestBody CountryRequestObj countryRequestObj) throws Exception{
+    public ResponseEntity<CountryObj> createTree (@Valid @RequestBody CountryObj countryRequestObj) throws Exception{
         return ResponseEntity.status(HttpStatus.CREATED).body(countryService.createTree(countryRequestObj));
     }
 

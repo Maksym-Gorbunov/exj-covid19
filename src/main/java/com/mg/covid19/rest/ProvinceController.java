@@ -1,8 +1,7 @@
 package com.mg.covid19.rest;
 
 import com.mg.covid19.model.model.ProvinceModel;
-import com.mg.covid19.model.object.ProvinceRequestObj;
-import com.mg.covid19.model.object.ProvinceResponseObj;
+import com.mg.covid19.model.object.ProvinceObj;
 import com.mg.covid19.service.implementation.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,8 +29,8 @@ public class ProvinceController {
     }
 
     @GetMapping("/*")
-    public ResponseEntity<List<ProvinceResponseObj>> getAllTree() throws Exception {
-        List<ProvinceResponseObj> result = provinceService.getAllTree();
+    public ResponseEntity<List<ProvinceObj>> getAllTree() throws Exception {
+        List<ProvinceObj> result = provinceService.getAllTree();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
@@ -41,7 +40,7 @@ public class ProvinceController {
     }
 
     @PostMapping("/*")
-    public ResponseEntity<ProvinceResponseObj> createTree (@Valid @RequestBody ProvinceRequestObj provinceRequestObj) throws Exception{
+    public ResponseEntity<ProvinceObj> createTree (@Valid @RequestBody ProvinceObj provinceRequestObj) throws Exception{
         return ResponseEntity.status(HttpStatus.CREATED).body(provinceService.createTree(provinceRequestObj));
     }
 

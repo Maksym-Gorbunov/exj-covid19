@@ -1,8 +1,7 @@
 package com.mg.covid19.rest.api;
 
 import com.mg.covid19.model.entity.Country;
-import com.mg.covid19.model.object.CountryRequestObj;
-import com.mg.covid19.model.object.CountryResponseObj;
+import com.mg.covid19.model.object.CountryObj;
 import com.mg.covid19.service.implementation.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -42,7 +41,7 @@ public class ApiController {
     }
 
 
-    private HttpEntity<String> initEntity(){
+    private HttpEntity<String> initEntity() {
         HttpHeaders headers = getHeaders();
         HttpEntity<String> entity = new HttpEntity<>(headers);
         return entity;
@@ -57,7 +56,6 @@ public class ApiController {
         if (response != null && response.getStatusCode().value() == 200) {
             List<Map> data = response.getBody();
             if (!data.isEmpty()) {
-                System.out.println("Total: "+data.size());
                 return new ResponseEntity<>(data, HttpStatus.OK);
             }
             return new ResponseEntity<>((List<Map>) null, HttpStatus.NOT_FOUND);
@@ -66,30 +64,20 @@ public class ApiController {
     }
 
     @GetMapping("/countries")   // http://localhost:7000/covid19/api/countries
-    public ResponseEntity<List<CountryResponseObj>> getListOfCountries22() throws Exception{
+    public ResponseEntity<List<CountryObj>> getListOfCountries() throws Exception {
         String url = env.getProperty("covid19.url") + "/help/countries?format=json";
         ResponseEntity<List<Map>> response = restTemplate.exchange(url, HttpMethod.GET, initEntity(), new ParameterizedTypeReference<List<Map>>() {
         });
         if (response != null && response.getStatusCode().value() == 200) {
             List<Map> data = response.getBody();
             if (!data.isEmpty()) {
-                List<CountryRequestObj> result1 = transformer.transform0022(data);
-                List<CountryResponseObj> result2 = new ArrayList<>();
-                System.out.println("Total: "+data.size());
-                System.out.println("Total res1: "+result1.size());
-                /*result1.forEach(c -> {
-                    try {
-                        CountryResponseObj savedCountry = countryService.createTree(c);
-                        result2.add(savedCountry);              //CountryObj instead of RESPONCE REQ OBJ
-                    } catch (Exception e) {                     //toDo create service accept lists, sout 2of2003 insert
-                        e.printStackTrace();
-                    }
-                });*/
-                return new ResponseEntity<>(result2, HttpStatus.OK);
+                List<CountryObj> countriesObj = transformer.transform0022(data);
+                List<CountryObj> result = countryService.createTrees(countriesObj);
+                return new ResponseEntity<>(result, HttpStatus.OK);
             }
-            return new ResponseEntity<>((List<CountryResponseObj>) null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>((List<CountryObj>) null, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>((List<CountryResponseObj>) null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>((List<CountryObj>) null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/countries2")   // http://localhost:7000/covid19/api/countries
@@ -187,39 +175,6 @@ public class ApiController {
 
 
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
