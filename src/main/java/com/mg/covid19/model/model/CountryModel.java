@@ -11,6 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class CountryModel {
 
+    private long id;
     private String name;
 
 }

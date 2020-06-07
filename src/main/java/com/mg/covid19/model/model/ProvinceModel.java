@@ -12,6 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class ProvinceModel {
 
+    private long id;
     private String name;
 
 }

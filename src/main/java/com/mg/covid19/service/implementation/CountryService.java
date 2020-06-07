@@ -12,15 +12,20 @@ import com.mg.covid19.model.model.CountryModel;
 import com.mg.covid19.model.model.LocationModel;
 import com.mg.covid19.model.model.StatisticModel;
 import com.mg.covid19.model.object.CountryObj;
+import com.mg.covid19.repository.CodeRepository;
 import com.mg.covid19.repository.CountryRepository;
+import com.mg.covid19.repository.LocationRepository;
+import com.mg.covid19.repository.StatisticRepository;
 import com.mg.covid19.service.ICountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class CountryService implements ICountryService {
     @Autowired
     private CountryRepository repository;
@@ -59,6 +64,7 @@ public class CountryService implements ICountryService {
         for (Country country : countries) {
             CountryObj countryObj = new CountryObj();
             countryObj.setName(country.getName());
+            countryObj.setId(country.getId());
 
             Statistic statistic = country.getStatistic();
             if (statistic != null) {
@@ -89,6 +95,7 @@ public class CountryService implements ICountryService {
     @Override
     public CountryModel create(CountryModel countryModel) throws Exception {
         Country country = mapper.toEntity(countryModel);
+        System.out.println("555 " + country);
         Country savedCountry = repository.save(country);
         if (savedCountry == null) {
             throw new ResourceCreationException("unable to save 'country'");
@@ -96,41 +103,24 @@ public class CountryService implements ICountryService {
         return mapper.toModel(savedCountry);
     }
 
+
     @Override
     public CountryObj createTree(CountryObj countryObj) throws Exception {
         CountryObj result = new CountryObj();
 
         Country country = new Country();
         country.setName(countryObj.getName());
-
-        StatisticModel statisticModel = countryObj.getStatistic();
-        if (statisticModel != null) {
-            StatisticModel savedStatisticModel = statisticService.create(statisticModel);
-            if (savedStatisticModel == null) {
-                throw new ResourceCreationException("unable to save 'statistic'");
-            }
-            country.setStatistic(mapper.toEntity(savedStatisticModel));
-            result.setStatistic(savedStatisticModel);
+        if (countryObj.getCode() != null) {
+            country.setCode(mapper.toEntity(countryObj.getCode()));
+            result.setCode(codeService.create(countryObj.getCode()));
         }
-
-        CodeModel codeModel = countryObj.getCode();
-        if (codeModel != null) {
-            CodeModel savedCodeModel = codeService.create(codeModel);
-            if (savedCodeModel == null) {
-                throw new ResourceCreationException("unable to save 'code'");
-            }
-            country.setCode(mapper.toEntity(savedCodeModel));
-            result.setCode(savedCodeModel);
+        if (countryObj.getLocation() != null) {
+            country.setLocation(mapper.toEntity(countryObj.getLocation()));
+            result.setLocation(locationService.create(countryObj.getLocation()));
         }
-
-        LocationModel locationModel = countryObj.getLocation();
-        if (locationModel != null) {
-            LocationModel savedLocationModel = locationService.create(locationModel);
-            if (savedLocationModel == null) {
-                throw new ResourceCreationException("unable to save 'location'");
-            }
-            country.setLocation(mapper.toEntity(savedLocationModel));
-            result.setLocation(savedLocationModel);
+        if (countryObj.getStatistic() != null) {
+            country.setStatistic(mapper.toEntity(countryObj.getStatistic()));
+            result.setStatistic(statisticService.create(countryObj.getStatistic()));
         }
 
         Country savedCountry = repository.save(country);
@@ -138,6 +128,7 @@ public class CountryService implements ICountryService {
             throw new ResourceCreationException("unable to save 'country'");
         }
 
+        result.setId(savedCountry.getId());
         result.setName(savedCountry.getName());
 
         return result;
@@ -146,9 +137,9 @@ public class CountryService implements ICountryService {
     @Override
     public List<CountryObj> createTrees(List<CountryObj> countriesObj) throws Exception {
         List<CountryObj> result = new ArrayList<>();
-        for(int i=0; i<countriesObj.size(); i++){
+        for (int i = 0; i < countriesObj.size(); i++) {
             result.add(createTree(countriesObj.get(i)));
-            System.out.println((i+1) + "/" + countriesObj.size() + " inserted to database");
+            System.out.println((i + 1) + "/" + countriesObj.size() + " inserted to database");
         }
         return result;
     }

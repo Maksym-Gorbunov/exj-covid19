@@ -13,6 +13,7 @@ import java.time.Instant;
 @AllArgsConstructor
 public class StatisticModel {
 
+    private long id;
     private int confirmed;
     private int recovered;
     private int active;

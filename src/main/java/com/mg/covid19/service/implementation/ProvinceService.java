@@ -51,6 +51,7 @@ public class ProvinceService implements IProvinceService {
         for (Province province : provinces) {
             ProvinceObj provinceObj = new ProvinceObj();
             provinceObj.setName(province.getName());
+            provinceObj.setId(province.getId());
             Statistic statistic = province.getStatistic();
             if (statistic != null) {
                 provinceObj.setStatistic(statisticService.get(statistic.getId()));
@@ -97,6 +98,8 @@ public class ProvinceService implements IProvinceService {
         if (savedProvince == null) {
             throw new ResourceCreationException("unable to save 'province'");
         }
+
+        result.setId(savedProvince.getId());
         result.setName(savedProvince.getName());
 
         return result;

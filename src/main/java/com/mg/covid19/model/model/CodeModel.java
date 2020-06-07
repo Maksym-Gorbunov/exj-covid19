@@ -11,6 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class CodeModel {
 
+    private long id;
     private String code;
     private String alpha2code;
     private String alpha3code;

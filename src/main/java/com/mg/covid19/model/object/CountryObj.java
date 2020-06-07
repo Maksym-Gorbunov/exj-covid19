@@ -12,8 +12,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CountryObj {
-    String name;
-    StatisticModel statistic;
-    CodeModel code;
-    LocationModel location;
+
+    private long id;
+    private String name;
+    private StatisticModel statistic;
+    private CodeModel code;
+    private LocationModel location;
 }

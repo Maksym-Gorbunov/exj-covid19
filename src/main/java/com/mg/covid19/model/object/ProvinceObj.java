@@ -11,6 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProvinceObj {
-    String name;
-    StatisticModel statistic;
+    private long id;
+    private String name;
+    private StatisticModel statistic;
 }

@@ -10,6 +10,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LocationModel {
+
+    private long id;
     double latitude;
     double longitude;
 }

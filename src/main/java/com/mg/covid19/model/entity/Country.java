@@ -21,6 +21,7 @@ public class Country implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)     //toDo dont use(increment) table field id on error
     private long id;
 
+    @Column(unique=true)
     String name;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -32,6 +33,7 @@ public class Country implements Serializable {
     private Code code;
 
     @OneToOne(cascade = CascadeType.ALL)
+    //@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "location_id", referencedColumnName = "id")
     private Location location;
 
