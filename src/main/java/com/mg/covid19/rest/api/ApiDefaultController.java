@@ -42,20 +42,19 @@ public class ApiDefaultController {
 
 
     @GetMapping("/docs/*")   // http://localhost:7000/covid19/api/docs/*
-    public ResponseEntity<List<Map>> OpenAPIDocumentation() {
+    public ResponseEntity<Map> OpenAPIDocumentation() {
         //String url = env.getProperty("covid19.url") + "/docs.json";
         System.out.println(6666);
         String url = "https://covid-19-data.p.rapidapi.com/docs.json";
-        ResponseEntity<List<Map>> response = restTemplate.exchange(url, HttpMethod.GET, restHelper.initEntity(), new ParameterizedTypeReference<List<Map>>() {
-        });
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, restHelper.initEntity(), Map.class);
         if (response != null && response.getStatusCode().value() == 200) {
-            List<Map> data = response.getBody();
+            Map data = response.getBody();
             if (!data.isEmpty()) {
                 return new ResponseEntity<>(data, HttpStatus.OK);
             }
-            return new ResponseEntity<>((List<Map>) null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>((Map) null, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>((List<Map>) null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>((Map) null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
