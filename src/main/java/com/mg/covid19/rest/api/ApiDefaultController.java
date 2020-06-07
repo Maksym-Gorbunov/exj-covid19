@@ -74,7 +74,7 @@ public class ApiDefaultController {
     }
 
 
-    @GetMapping("/total/date/{date}/*")   // http://localhost:7000/covid19/api/total/date/2020-04-01*
+    @GetMapping("/total/date/{date}/*")   // http://localhost:7000/covid19/api/total/date/2020-04-01/*
     public ResponseEntity<List<Map>> getDailyReportTotals(@PathVariable String date) {
         String url = env.getProperty("covid19.url") + "/report/totals?date-format=YYYY-MM-DD&format=json&date="+date;
         ResponseEntity<List<Map>> response = restTemplate.exchange(url, HttpMethod.GET, restHelper.initEntity(), new ParameterizedTypeReference<List<Map>>() {
