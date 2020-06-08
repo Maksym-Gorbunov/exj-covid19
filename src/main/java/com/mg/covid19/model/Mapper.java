@@ -13,6 +13,9 @@ public class Mapper extends ModelMapper {
 
 
     public <E, M> M toModel(E entity){
+        if(entity==null){
+            return null;
+        }
         if(entity.getClass().getSimpleName().startsWith("Country")){
             return this.map(entity, (Type) CountryModel.class);
         }
@@ -33,6 +36,9 @@ public class Mapper extends ModelMapper {
 
 
     public <E, M> List<M> toModels(List<E> entities){
+        if(entities==null){
+            return null;
+        }
         if(entities.get(0).getClass().getSimpleName().startsWith("Country")){
             List<CountryModel> models = new ArrayList<>();
             for(E entity : entities){
@@ -73,6 +79,9 @@ public class Mapper extends ModelMapper {
 
 
     public <M, E> E toEntity(M model){
+        if(model==null){
+            return null;
+        }
         if(model.getClass().getSimpleName().startsWith("CountryModel")){
             return this.map(model, (Type) Country.class);
         }
@@ -93,6 +102,9 @@ public class Mapper extends ModelMapper {
 
 
     public <M, E> List<E> toEntities(List<M> models){
+        if(models==null){
+            return null;
+        }
         if(models.get(0).getClass().getSimpleName().startsWith("CountryModel")){
             List<Country> entities = new ArrayList<>();
             for(M model : models){

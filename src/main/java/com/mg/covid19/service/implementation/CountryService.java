@@ -104,6 +104,7 @@ public class CountryService implements ICountryService {
     }
 
 
+    /*
     @Override
     public CountryObj createTree(CountryObj countryObj) throws Exception {
         CountryObj result = new CountryObj();
@@ -122,7 +123,29 @@ public class CountryService implements ICountryService {
             country.setStatistic(mapper.toEntity(countryObj.getStatistic()));
             result.setStatistic(statisticService.create(countryObj.getStatistic()));
         }
+        System.out.println(444);
+        Country savedCountry = repository.save(country);
+        System.out.println(555);
+        if (savedCountry == null) {
+            throw new ResourceCreationException("unable to save 'country'");
+        }
 
+        result.setId(savedCountry.getId());
+        result.setName(savedCountry.getName());
+
+        return result;
+    }
+    */
+
+    @Override
+    public CountryObj createTree(CountryObj countryObj) throws Exception {
+        CountryObj result = new CountryObj();
+
+        Country country = new Country();
+        country.setName(countryObj.getName());
+        country.setCode(mapper.toEntity(countryObj.getCode()));
+        country.setLocation(mapper.toEntity(countryObj.getLocation()));
+        country.setStatistic(mapper.toEntity(countryObj.getStatistic()));
         Country savedCountry = repository.save(country);
         if (savedCountry == null) {
             throw new ResourceCreationException("unable to save 'country'");
@@ -130,6 +153,15 @@ public class CountryService implements ICountryService {
 
         result.setId(savedCountry.getId());
         result.setName(savedCountry.getName());
+        if(countryObj.getCode()!=null){
+            result.setCode(codeService.get(savedCountry.getCode().getId()));
+        }
+        if(countryObj.getLocation()!=null){
+            result.setLocation(locationService.get(savedCountry.getLocation().getId()));
+        }
+        if(countryObj.getStatistic()!=null){
+            result.setStatistic(statisticService.get(savedCountry.getStatistic().getId()));
+        }
 
         return result;
     }
