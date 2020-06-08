@@ -31,7 +31,7 @@ public class CodeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(codeModel));
     }
 
-    @PutMapping
+    @PatchMapping
     public ResponseEntity<CodeModel> update (@Valid @RequestBody CodeModel codeModel ) throws Exception{
         return ResponseEntity.status(HttpStatus.OK).body(service.update(codeModel));
     }

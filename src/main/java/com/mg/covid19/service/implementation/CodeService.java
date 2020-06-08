@@ -48,9 +48,15 @@ public class CodeService implements ICodeService {
         return mapper.toModel(savedEntity);
     }
 
-    @Override   //toDo Implement
+    @Override
     public CodeModel update(CodeModel codeModel) throws Exception {
-        return null;
+        Code entity = repository.getOne(codeModel.getId());
+        if (entity == null) {
+            throw new ResourceCreationException("unable to update 'code'");
+        }
+        entity = mapper.toEntity(codeModel);
+        Code savedEntity = repository.save(entity);
+        return mapper.toModel(savedEntity);
     }
 
     @Override

@@ -23,7 +23,9 @@ public class Code implements Serializable {
     private long id;
 
     String code;
+    @Column(unique=true)
     String alpha2code;
+    @Column(unique=true)
     String alpha3code;
 
     @OneToOne(mappedBy = "code")
