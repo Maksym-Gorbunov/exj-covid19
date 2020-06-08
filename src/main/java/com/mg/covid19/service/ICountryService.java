@@ -21,6 +21,8 @@ public interface ICountryService {
 
     CountryModel update(CountryModel countryModel) throws Exception;
 
+    CountryObj updateTree(CountryObj countryObj) throws Exception;
+
     String delete (Long id) throws Exception;
     
 }

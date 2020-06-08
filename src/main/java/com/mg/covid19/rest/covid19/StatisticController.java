@@ -31,7 +31,7 @@ public class StatisticController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(statisticModel));
     }
 
-    @PutMapping
+    @PatchMapping
     public ResponseEntity<StatisticModel> update (@Valid @RequestBody StatisticModel statisticModel ) throws Exception{
         return ResponseEntity.status(HttpStatus.OK).body(service.update(statisticModel));
     }

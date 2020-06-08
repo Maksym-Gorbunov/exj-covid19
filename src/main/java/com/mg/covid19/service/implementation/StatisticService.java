@@ -3,6 +3,7 @@ package com.mg.covid19.service.implementation;
 import com.mg.covid19.config.exception.exc.ResourceCreationException;
 import com.mg.covid19.config.exception.exc.ResourceNotFoundException;
 import com.mg.covid19.model.Mapper;
+import com.mg.covid19.model.entity.Code;
 import com.mg.covid19.model.entity.Statistic;
 import com.mg.covid19.model.model.StatisticModel;
 import com.mg.covid19.repository.StatisticRepository;
@@ -49,9 +50,15 @@ public class StatisticService implements IStatisticService {
         return mapper.toModel(savedStatistic);
     }
 
-    @Override   //toDo Implement
+    @Override
     public StatisticModel update(StatisticModel statisticModel) throws Exception {
-        return null;
+        Statistic entity = repository.getOne(statisticModel.getId());
+        if (entity == null) {
+            throw new ResourceCreationException("unable to update 'statistic'");
+        }
+        entity = mapper.toEntity(statisticModel);
+        Statistic savedEntity = repository.save(entity);
+        return mapper.toModel(savedEntity);
     }
 
     @Override

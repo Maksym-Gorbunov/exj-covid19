@@ -44,9 +44,14 @@ public class CountryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(countryService.createTree(countryRequestObj));
     }
 
-    @PutMapping
+    @PatchMapping
     public ResponseEntity<CountryModel> update (@Valid @RequestBody CountryModel countryModel ) throws Exception{
         return ResponseEntity.status(HttpStatus.OK).body(countryService.update(countryModel));
+    }
+
+    @PatchMapping("/*")
+    public ResponseEntity<CountryObj> updateTree (@Valid @RequestBody CountryObj countryObj ) throws Exception{
+        return ResponseEntity.status(HttpStatus.OK).body(countryService.updateTree(countryObj));
     }
 
     @DeleteMapping("/{id}")

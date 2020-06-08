@@ -31,7 +31,7 @@ public class LocationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(locationModel));
     }
 
-    @PutMapping
+    @PatchMapping
     public ResponseEntity<LocationModel> update (@Valid @RequestBody LocationModel locationModel ) throws Exception{
         return ResponseEntity.status(HttpStatus.OK).body(service.update(locationModel));
     }

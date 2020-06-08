@@ -176,10 +176,65 @@ public class CountryService implements ICountryService {
         return result;
     }
 
-    @Override   //toDo Implement
+    @Override
     public CountryModel update(CountryModel countryModel) throws Exception {
-        return null;
+        Country entity = repository.getOne(countryModel.getId());
+        if (entity == null) {
+            throw new ResourceCreationException("unable to update 'country'");
+        }
+        entity.setName(countryModel.getName());
+        Country savedEntity = repository.save(entity);
+        return mapper.toModel(savedEntity);
     }
+
+    @Override
+    public CountryObj updateTree(CountryObj countryObj) throws Exception {
+        Country country = repository.getOne(countryObj.getId());
+        if (country == null) {
+            throw new ResourceCreationException("unable to update 'country'");
+        }
+
+        if(countryObj.getCode()!=null){
+            if(country.getCode()!=null){
+                codeService.update(countryObj.getCode());
+            } else {
+                country.setCode(mapper.toEntity(countryObj.getCode()));
+            }
+        }
+        if(countryObj.getLocation()!=null){
+            if(country.getLocation()!=null){
+                locationService.update(countryObj.getLocation());
+            } else {
+                country.setLocation(mapper.toEntity(countryObj.getLocation()));
+            }
+        }
+        if(countryObj.getStatistic()!=null){
+            if(country.getStatistic()!=null){
+                statisticService.update(countryObj.getStatistic());
+            } else {
+                country.setStatistic(mapper.toEntity(countryObj.getStatistic()));
+            }
+        }
+
+        country.setName(countryObj.getName());
+        Country savedCountry = repository.save(country);
+
+        CountryObj result = new CountryObj();
+        result.setId(savedCountry.getId());
+        result.setName(savedCountry.getName());
+        if(countryObj.getCode()!=null){
+            result.setCode(codeService.get(savedCountry.getCode().getId()));
+        }
+        if(countryObj.getLocation()!=null){
+            result.setLocation(locationService.get(savedCountry.getLocation().getId()));
+        }
+        if(countryObj.getStatistic()!=null){
+            result.setStatistic(statisticService.get(savedCountry.getStatistic().getId()));
+        }
+
+        return result;
+    }
+
 
     @Override
     public String delete(Long id) throws Exception {

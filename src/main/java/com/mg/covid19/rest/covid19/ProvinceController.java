@@ -44,7 +44,7 @@ public class ProvinceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(provinceService.createTree(provinceRequestObj));
     }
 
-    @PutMapping
+    @PatchMapping
     public ResponseEntity<ProvinceModel> update (@Valid @RequestBody ProvinceModel provinceModel ) throws Exception{
         return ResponseEntity.status(HttpStatus.OK).body(provinceService.update(provinceModel));
     }

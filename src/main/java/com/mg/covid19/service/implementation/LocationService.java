@@ -3,6 +3,7 @@ package com.mg.covid19.service.implementation;
 import com.mg.covid19.config.exception.exc.ResourceCreationException;
 import com.mg.covid19.config.exception.exc.ResourceNotFoundException;
 import com.mg.covid19.model.Mapper;
+import com.mg.covid19.model.entity.Code;
 import com.mg.covid19.model.entity.Location;
 import com.mg.covid19.model.model.LocationModel;
 import com.mg.covid19.repository.LocationRepository;
@@ -48,9 +49,15 @@ public class LocationService implements ILocationService {
         return mapper.toModel(savedLocation);
     }
 
-    @Override   //toDo Implement
+    @Override
     public LocationModel update(LocationModel locationModel) throws Exception {
-        return null;
+        Location entity = repository.getOne(locationModel.getId());
+        if (entity == null) {
+            throw new ResourceCreationException("unable to update 'location'");
+        }
+        entity = mapper.toEntity(locationModel);
+        Location savedEntity = repository.save(entity);
+        return mapper.toModel(savedEntity);
     }
 
     @Override
