@@ -4,6 +4,7 @@ import com.mg.covid19.model.Mapper;
 import com.mg.covid19.model.entity.Code;
 import com.mg.covid19.model.entity.Country;
 import com.mg.covid19.model.entity.Location;
+import com.mg.covid19.model.entity.Statistic;
 import com.mg.covid19.model.object.CountryObj;
 import com.mg.covid19.service.implementation.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,61 @@ public class RestHelper {
             return countries;
         }
         return null;
+    }
+
+
+
+    public CountryObj transformData2(Map map) {
+        CountryObj countryObj = new CountryObj();
+        countryObj.setName((String) map.get("country"));
+
+        Statistic statistic = new Statistic();
+
+        if(map.get("confirmed")!=null){
+            statistic.setConfirmed((Integer) map.get("confirmed"));
+        }
+        if(map.get("recovered")!=null){
+            statistic.setRecovered((Integer) map.get("recovered"));
+        }
+        if(map.get("critical")!=null){
+            statistic.setCritical((Integer) map.get("critical"));
+        }
+        if(map.get("deaths")!=null){
+            statistic.setDeaths((Integer) map.get("deaths"));
+        }
+        if(map.get("lastChange")!=null){
+            statistic.setLastChange((String) map.get("lastChange"));
+        }
+        if(map.get("lastUpdate")!=null){
+            statistic.setLastUpdate((String) map.get("lastUpdate"));
+        }
+        countryObj.setStatistic(mapper.toModel(statistic));
+
+        return countryObj;
+    }
+
+
+    public Statistic transformData3(Map map) {
+        Statistic statistic = new Statistic();
+        if(map.get("confirmed")!=null){
+            statistic.setConfirmed((Integer) map.get("confirmed"));
+        }
+        if(map.get("recovered")!=null){
+            statistic.setRecovered((Integer) map.get("recovered"));
+        }
+        if(map.get("critical")!=null){
+            statistic.setCritical((Integer) map.get("critical"));
+        }
+        if(map.get("deaths")!=null){
+            statistic.setDeaths((Integer) map.get("deaths"));
+        }
+        if(map.get("lastChange")!=null){
+            statistic.setLastChange((String) map.get("lastChange"));
+        }
+        if(map.get("lastUpdate")!=null){
+            statistic.setLastUpdate((String) map.get("lastUpdate"));
+        }
+        return statistic;
     }
     /*
     public Map transform001(Map data) {

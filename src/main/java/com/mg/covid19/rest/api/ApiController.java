@@ -1,12 +1,16 @@
 package com.mg.covid19.rest.api;
 
+import com.mg.covid19.model.Mapper;
+import com.mg.covid19.model.entity.Statistic;
 import com.mg.covid19.model.object.CountryObj;
 import com.mg.covid19.rest.RestHelper;
 import com.mg.covid19.service.implementation.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.env.Environment;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -24,11 +28,15 @@ public class ApiController {
     private RestHelper restHelper;
     @Autowired
     private CountryService countryService;
+    @Autowired
+    private Environment env;
+    @Autowired
+    Mapper mapper;
 
 
-
-    @GetMapping("/countries")   // http://localhost:7000/covid19/api/countries
-    public ResponseEntity<List<CountryObj>> getListOfCountries() throws Exception {
+    //populate database with countries, code, location
+    @GetMapping("/populate/countries/v1")   //http://localhost:7000/covid19/api/populate/countries/v1
+    public ResponseEntity<List<CountryObj>> populateCountries1() throws Exception {
         String url = restHelper.getUrl() + "/help/countries?format=json";
         ResponseEntity<List<Map>> response = restTemplate.exchange(url, HttpMethod.GET, restHelper.initEntity(), new ParameterizedTypeReference<List<Map>>() {
         });
@@ -42,6 +50,57 @@ public class ApiController {
             return new ResponseEntity<>((List<CountryObj>) null, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>((List<CountryObj>) null, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
+    @GetMapping("/statistic/name/{name}")   //http://localhost:7000/covid19/api/statistic/name/usa
+    public ResponseEntity<CountryObj> getStatisticObjByCountryName(@PathVariable String name) throws Exception {
+        String url = env.getProperty("covid19.url") + "/country?format=json&name="+name;
+        ResponseEntity<List<Map>> response = restTemplate.exchange(url, HttpMethod.GET, restHelper.initEntity(), new ParameterizedTypeReference<List<Map>>() {
+        });
+        if (response != null && response.getStatusCode().value() == 200) {
+            List<Map> data = response.getBody();
+            if (!data.isEmpty()) {
+                CountryObj countryObj = restHelper.transformData2(data.get(0));
+                return new ResponseEntity<>(countryObj, HttpStatus.OK);
+            }
+            return new ResponseEntity<>((CountryObj) null, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>((CountryObj) null, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    public Statistic getStatisticByCountryName(String name) throws Exception {
+        String url = env.getProperty("covid19.url") + "/country?format=json&name="+name;
+        ResponseEntity<List<Map>> response = restTemplate.exchange(url, HttpMethod.GET, restHelper.initEntity(), new ParameterizedTypeReference<List<Map>>() {
+        });
+        if (response != null && response.getStatusCode().value() == 200) {
+            List<Map> data = response.getBody();
+            if (!data.isEmpty()) {
+                Statistic statistic = restHelper.transformData3(data.get(0));
+                return statistic;
+            }
+        }
+        return null;
+    }
+
+
+    //populate database with statistic
+    @GetMapping("/populate/countries/v2")   //http://localhost:7000/covid19/api/populate/countries/v1
+    public ResponseEntity<List<CountryObj>> populateCountries2() throws Exception {
+        List<CountryObj> countries = countryService.getAllTree();
+        if(countries==null){
+            return new ResponseEntity<>((List<CountryObj>) null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        int i = 1;
+        for(CountryObj countryObj : countries){
+            Statistic statistic = getStatisticByCountryName(countryObj.getName());
+            countryObj.setStatistic(mapper.toModel(statistic));
+            System.out.println(i+" / "+countries.size() + " statistic inserted");
+            countryService.updateTree(countryObj);
+            Thread.sleep(2000);
+            i++;
+        }
+        return new ResponseEntity<>(countries, HttpStatus.OK);
     }
 
 
