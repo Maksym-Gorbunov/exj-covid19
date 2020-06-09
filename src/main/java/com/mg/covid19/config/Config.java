@@ -34,7 +34,7 @@ public class Config {
         return new RestHelper();
     }
 
-    @Bean
+    /*@Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurerAdapter() {
             @Override
@@ -42,6 +42,6 @@ public class Config {
                 registry.addMapping("/**");
             }
         };
-    }
+    }*/
 
 }
